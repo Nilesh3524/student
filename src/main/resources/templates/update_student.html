@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="base::layout(~{::section})"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div th:fragment="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card mt-3">
+              <div class="card-header">
+                <h1 class="text-center">Update Student Record</h1>
+              </div>
+
+              <div class="card-body">
+                <!-- form start -->
+                <form
+                  th:action="@{'/admin/update/student/'+${student.id}}"
+                  method="post"
+                  th:object="${student}"
+                >
+                  <!-- Your existing form elements -->
+                  <!-- id -->
+                  <div class="form-group">
+                    <label for="id">ID:</label>
+                    <input
+                      name="id"
+                      type="text"
+                      class="form-control"
+                      id="id"
+                      th:value="${student.id}"
+                      readonly
+                    />
+                  </div>
+
+                  <!-- name -->
+                  <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input
+                      name="name"
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      th:value="${student.name}"
+                      th:classappend="${#fields.hasErrors('name')?'is-invalid':''}"
+                      required
+                    />
+                    <div
+                      th:each="e : ${#fields.errors('name')}"
+                      class="invalid-feedback"
+                      th:text="${e}"
+                    ></div>
+                  </div>
+
+                  <!-- email -->
+                  <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input
+                      name="email"
+                      type="email"
+                      class="form-control"
+                      id="name"
+                      th:value="${student.email}"
+                      th:classappend="${#fields.hasErrors('email')?'is-invalid':''}"
+                      required
+                    />
+                    <div
+                      th:each="e : ${#fields.errors('email')}"
+                      class="invalid-feedback"
+                      th:text="${e}"
+                    ></div>
+                  </div>
+
+                  <!-- phone -->
+                  <div class="form-group">
+                    <label for="phone">Phone:</label>
+                    <input
+                      name="phone"
+                      type="number"
+                      class="form-control"
+                      id="name"
+                      th:value="${student.phone}"
+                      th:classappend="${#fields.hasErrors('phone')?'is-invalid':''}"
+                      required
+                    />
+                    <div
+                      th:each="e : ${#fields.errors('phone')}"
+                      class="invalid-feedback"
+                      th:text="${e}"
+                    ></div>
+                  </div>
+
+                  <!-- branch -->
+                  <div class="form-group">
+                    <label for="branch">Branch:</label>
+                    <select
+                      name="branch"
+                      class="form-control"
+                      id="branch"
+                    >
+                      <option value="CSE">Computer Science Engineering</option>
+                      <option value="ETE">
+                        Electronics and Telecommunication Engineering
+                      </option>
+                      <option value="EE">Electrical Engineering</option>
+                      <option value="ME">Mechanical Engineering</option>
+                      <option value="AIDS">Data Science</option>
+                      <option value="ML">Machine Learning</option>
+                    </select>
+                  </div>
+
+                  <!-- forum member -->
+                  <div class="form-group">
+                    <label for="forum">Forum Member:</label>
+                    <select
+                      name="forum"
+                      class="form-control"
+                      id="forum"
+                    >
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+
+                  <!-- address -->
+                  <div class="form-group">
+                    <label for="address">Address:</label>
+                    <textarea
+                      name="address"
+                      class="form-control"
+                      id="address"
+                      th:text="${student.address}"
+                      th:classappend="${#fields.hasErrors('address')?'is-invalid':''}"
+                      required
+                    ></textarea>
+                    <div
+                      th:each="e : ${#fields.errors('address')}"
+                      class="invalid-feedback"
+                      th:text="${e}"
+                    ></div>
+                  </div>
+
+                  <!-- sgpa1 -->
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="sgpa1">SGPA Semester 1:</label>
+                      <input
+                        name="sgpa1"
+                        type="number"
+                        class="sgpa form-control"
+                        id="sgpa1"
+                        th:value="${student.sgpa1}"
+                        required
+                      />
+                    </div>
+
+                    <!-- sgpa2 -->
+                    <div class="form-group col-md-6">
+                      <label for="sgpa2">SGPA Semester 2:</label>
+                      <input
+                        name="sgpa2"
+                        type="number"
+                        class="sgpa form-control"
+                        id="sgpa2"
+                        th:value="${student.sgpa2}"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <!-- sgpa3 -->
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="sgpa3">SGPA Semester 3:</label>
+                      <input
+                        name="sgpa3"
+                        type="number"
+                        class="sgpa form-control"
+                        id="sgpa3"
+                        th:value="${student.sgpa3}"
+                        required
+                      />
+                    </div>
+
+                    <!-- sgpa4 -->
+                    <div class="form-group col-md-6">
+                      <label for="sgpa4">SGPA Semester 4:</label>
+                      <input
+                        name="sgpa4"
+                        type="number"
+                        class="sgpa form-control"
+                        id="sgpa4"
+                        th:value="${student.sgpa4}"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <!-- sgpa5 -->
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="sgpa5">SGPA Semester 5:</label>
+                      <input
+                        name="sgpa5"
+                        type="number"
+                        class="sgpa form-control"
+                        id="sgpa5"
+                        th:value="${student.sgpa5}"
+                        required
+                      />
+                    </div>
+
+                    <!-- sgpa6 -->
+                    <div class="form-group col-md-6">
+                      <label for="sgpa6">SGPA Semester 6:</label>
+                      <input
+                        name="sgpa6"
+                        type="number"
+                        class="sgpa form-control"
+                        id="sgpa6"
+                        th:value="${student.sgpa6}"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <!-- sgpa7 -->
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="sgpa7">SGPA Semester 7:</label>
+                      <input
+                        name="sgpa7"
+                        type="number"
+                        class="sgpa form-control"
+                        id="sgpa7"
+                        th:value="${student.sgpa7}"
+                        required
+                      />
+                    </div>
+
+                    <!-- sgpa8 -->
+                    <div class="form-group col-md-6">
+                      <label for="sgpa8">SGPA Semester 8:</label>
+                      <input
+                        name="sgpa8"
+                        type="number"
+                        class="sgpa form-control"
+                        id="sgpa8"
+                        th:value="${student.sgpa8}"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <!-- attendence1 -->
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="attendance1"
+                        >Attendance Semester 1 (%):</label
+                      >
+                      <input
+                        name="attendance1"
+                        type="number"
+                        class="attendance form-control"
+                        id="attendance1"
+                        th:value="${student.attendance1}"
+                        required
+                      />
+                    </div>
+
+                    <!-- attendance2 -->
+                    <div class="form-group col-md-6">
+                      <label for="attendance2"
+                        >Attendance Semester 2 (%):</label
+                      >
+                      <input
+                        name="attendance2"
+                        type="number"
+                        class="attendance form-control"
+                        id="attendance2"
+                        th:value="${student.attendance2}"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <!-- attendance3 -->
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="attendance3"
+                        >Attendance Semester 3 (%):</label
+                      >
+                      <input
+                        name="attendance3"
+                        type="number"
+                        class="attendance form-control"
+                        id="attendance3"
+                        th:value="${student.attendance3}"
+                        required
+                      />
+                    </div>
+
+                    <!-- attendance4 -->
+                    <div class="form-group col-md-6">
+                      <label for="attendance4"
+                        >Attendance Semester 4 (%):</label
+                      >
+                      <input
+                        name="attendance4"
+                        type="number"
+                        class="attendance form-control"
+                        id="attendance4"
+                        th:value="${student.attendance4}"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <!-- attendance5 -->
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="attendance5"
+                        >Attendance Semester 5 (%):</label
+                      >
+                      <input
+                        name="attendance5"
+                        type="number"
+                        class="attendance form-control"
+                        id="attendance5"
+                        th:value="${student.attendance5}"
+                        required
+                      />
+                    </div>
+
+                    <!-- attendance6 -->
+                    <div class="form-group col-md-6">
+                      <label for="attendance6"
+                        >Attendance Semester 6 (%):</label
+                      >
+                      <input
+                        name="attendance6"
+                        type="number"
+                        class="attendance form-control"
+                        id="attendance6"
+                        th:value="${student.attendance6}"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <!-- attendance7 -->
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="attendance7"
+                        >Attendance Semester 7 (%):</label
+                      >
+                      <input
+                        name="attendance7"
+                        type="number"
+                        class="attendance form-control"
+                        id="attendance7"
+                        th:value="${student.attendance7}"
+                        required
+                      />
+                    </div>
+
+                    <!-- attendance8 -->
+                    <div class="form-group col-md-6">
+                      <label for="attendance8"
+                        >Attendance Semester 8 (%):</label
+                      >
+                      <input
+                        name="attendance8"
+                        type="number"
+                        class="attendance form-control"
+                        id="attendance8"
+                        th:value="${student.attendance8}"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <!-- certification -->
+                  <div class="form-group">
+                    <label for="certificate">Certificates:</label>
+                    <textarea
+                      th:text="${student.certification}"
+                      name="certification"
+                      class="form-control"
+                      id="certificate"
+                      th:classappend="${#fields.hasErrors('certification')?'is-invalid':''}"
+                      required
+                    ></textarea>
+                    <div
+                      th:each="e : ${#fields.errors('certification')}"
+                      class="invalid-feedback"
+                      th:text="${e}"
+                    ></div>
+                  </div>
+
+                  <!-- participation -->
+                  <div class="form-group">
+                    <label for="event">Participation in Events:</label>
+                    <textarea
+                      th:text="${student.participation}"
+                      name="participation"
+                      class="form-control"
+                      id="event"
+                      th:classappend="${#fields.hasErrors('participation')?'is-invalid':''}"
+                      required
+                    ></textarea>
+                    <div
+                      th:each="e : ${#fields.errors('participation')}"
+                      class="invalid-feedback"
+                      th:text="${e}"
+                    ></div>
+                  </div>
+
+                  <!-- backlog -->
+                  <div class="form-group">
+                    <label for="backlog">Student Pass with Backlog:</label>
+                    <select name="backlog" class="form-control" id="backlog">
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+
+                  <div class="mt-3 text-center">
+                    <button type="submit" class="btn btn-lg btn-outline-primary">
+                      Update
+                    </button>
+                  </div>
+                </form>
+
+                <!-- form end -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

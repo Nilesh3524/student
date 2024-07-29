@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="base::layout(~{::section})"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div th:fragment="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 offset-md-3">
+            <div class="card my-3">
+              <form
+                class="card-body cardbody-color p-lg-5"
+                method="post"
+                th:action="@{/admin/process-login}"
+              >
+                <div class="text-center">
+                  <img
+                    th:src="@{/img/sb.jpg}"
+                    class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3"
+                    width="200px"
+                    alt="profile"
+                  />
+                </div>
+
+                <div class="container">
+                  <h1 class="text-center mb-5 fs-12">Login Here</h1>
+                </div>
+
+                <div
+                  class="alert alert-danger"
+                  role="alert"
+                  th:if="${param.error}"
+                >
+                  Invalid Username or password !!
+                </div>
+                <div
+                  class="alert alert-success"
+                  role="alert"
+                  th:if="${param.logout}"
+                >
+                  You have been logout.
+                </div>
+
+                <div class="mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="Username"
+                    placeholder="Username"
+                    name="username"
+                  />
+                </div>
+                <div class="mb-3">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    placeholder="password"
+                    name="password"
+                  />
+                </div>
+                <div class="text-center mt-4">
+                  <button type="submit" class="btn btn-primary px-5 mb-5 w-100">
+                    Login
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

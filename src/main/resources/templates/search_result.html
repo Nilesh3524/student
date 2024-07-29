@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="base::layout(~{::section})"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 offset-md-3">
+            <div class="card my-3">
+              <form
+                class="card-body cardbody-color p-lg-5"
+                th:action="@{/search/student}"
+                method="get"
+              >
+                <div class="text-center">
+                  <img
+                    th:src="@{/img/sb.jpg}"
+                    class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3"
+                    width="200px"
+                    alt="profile"
+                  />
+                </div>
+
+                <div class="container">
+                  <h1 class="text-center mb-5 fs-12">View Result</h1>
+                </div>
+
+                <div th:if="${message}" class="alert alert-danger" role="alert">
+                  <th:block th:text="${message}"></th:block>
+                  <th:block
+                    th:text="${@sessionHelper.removeMessage()}"
+                  ></th:block>
+                </div>
+
+                <div class="mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="id"
+                    placeholder="Student Id"
+                    name="id"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    placeholder="Student Email"
+                    name="email"
+                    required
+                  />
+                </div>
+                <div class="text-center mt-4">
+                  <button type="submit" class="btn btn-primary px-5 mb-5 w-100">
+                    Search
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="base::layout(~{::section})"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 offset-md-1">
+            <div class="my-card card mt-3">
+              <div class="card-header">
+                <h1 class="text-center">Student Result</h1>
+              </div>
+
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <!-- Left column labels -->
+                    <div class="form-group">
+                      <label for="id">ID:</label>
+                      <th:block th:text="${s.id}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="name">Name:</label>
+                      <th:block th:text="${s.name}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="branch">Branch:</label>
+                      <th:block th:text="${s.branch}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="forum">Forum Member:</label>
+                      <th:block th:text="${s.forum}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="address">Address:</label>
+                      <th:block th:text="${s.address}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="sgpa1">SGPA Semester 1:</label>
+                      <th:block th:text="${s.sgpa1}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="sgpa2">SGPA Semester 2:</label>
+                      <th:block th:text="${s.sgpa2}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="sgpa3">SGPA Semester 3:</label>
+                      <th:block th:text="${s.sgpa3}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="sgpa4">SGPA Semester 4:</label>
+                      <th:block th:text="${s.sgpa4}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="sgpa5">SGPA Semester 5:</label>
+                      <th:block th:text="${s.sgpa5}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="sgpa6">SGPA Semester 6:</label>
+                      <th:block th:text="${s.sgpa6}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="sgpa7">SGPA Semester 7:</label>
+                      <th:block th:text="${s.sgpa7}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="sgpa8">SGPA Semester 8:</label>
+                      <th:block th:text="${s.sgpa8}"></th:block>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <!-- Right column labels -->
+
+                    <div class="form-group">
+                      <label for="cgpa">CGPA:</label>
+                      <th:block th:text="${s.cgpa}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="attendance1"
+                        >Attendance Semester 1 (%):</label
+                      >
+                      <th:block th:text="${s.attendance1}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="attendance2"
+                        >Attendance Semester 2 (%):</label
+                      >
+                      <th:block th:text="${s.attendance2}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="attendance3"
+                        >Attendance Semester 3 (%):</label
+                      >
+                      <th:block th:text="${s.attendance3}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="attendance4"
+                        >Attendance Semester 4 (%):</label
+                      >
+                      <th:block th:text="${s.attendance4}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="attendance5"
+                        >Attendance Semester 5 (%):</label
+                      >
+                      <th:block th:text="${s.attendance5}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="attendance6"
+                        >Attendance Semester 6 (%):</label
+                      >
+                      <th:block th:text="${s.attendance6}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="attendance7"
+                        >Attendance Semester 7 (%):</label
+                      >
+                      <th:block th:text="${s.attendance7}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="attendance8"
+                        >Attendance Semester 8 (%):</label
+                      >
+                      <th:block th:text="${s.attendance8}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="averageAttendance"
+                        >Average Attendance (%):</label
+                      >
+                      <th:block th:text="${s.avgAttendance}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="certificate">Certificates:</label>
+                      <th:block th:text="${s.certification}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="event">Participation in Events:</label>
+                      <th:block th:text="${s.participation}"></th:block>
+                    </div>
+                    <div class="form-group">
+                      <label for="backlog">Student Pass with Backlog:</label>
+                      <th:block th:text="${s.backlog}"></th:block>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

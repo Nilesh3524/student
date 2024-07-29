@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="base::layout(~{::section})"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+  </head>
+
+  <body>
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card mt-3">
+              <div class="card-header text-center">
+                <h1>Student Details</h1>
+              </div>
+
+              <div class="card-body">
+                <div class="table-container">
+                  <table
+                    class="my-table table table-bordered table-striped table-hover"
+                  >
+                    <thead class="thead-light">
+                      <tr>
+                        <!-- Create 30 headings -->
+                        <th>ID</th>
+                        <th>NAME</th>
+                        <th>BRANCH</th>
+                        <th>PHONE</th>
+                        <th>EMAIL</th>
+                        <th>FORUM MEMBER</th>
+                        <th>CGPA</th>
+                        <th>Average Attendance (%)</th>
+                        <th>BACKLOG</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Example row with 30 data cells -->
+                      <th:block th:each="s : ${students}">
+                        <tr>
+                          <th>
+                            <a
+                              th:href="@{'/admin/student/'+${s.id}}"
+                              style="
+                                cursor: pointer;
+                                color: black;
+                                text-decoration: none;
+                              "
+                            >
+                              <p th:text="${s.id}"></p>
+                            </a>
+                          </th>
+                          <td>
+                            <a
+                              th:href="@{'/admin/student/'+${s.id}}"
+                              style="
+                                cursor: pointer;
+                                color: black;
+                                text-decoration: none;
+                              "
+                            >
+                              <p th:text="${s.name}"></p>
+                            </a>
+                          </td>
+                          <td th:text="${s.branch}">Data 3</td>
+                          <td th:text="${s.phone}">Data 4</td>
+                          <td th:text="${s.email}">Data 5</td>
+                          <td th:text="${s.forum}">Data 6</td>
+                          <td th:text="${s.cgpa}">Data 16</td>
+                          <td th:text="${s.avgAttendance}">Data 25</td>
+                          <td th:text="${s.backlog}">Data 28</td>
+                        </tr>
+                      </th:block>
+
+                      <!-- Add more rows as needed -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
