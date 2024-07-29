@@ -14,7 +14,7 @@ public class HomeController {
     @Autowired
     private StudentService studentService;
 
-    @GetMapping("/index")
+    @GetMapping("/")
     public String index(Model m) {
 
         m.addAttribute("tittle", "Home");
