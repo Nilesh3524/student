@@ -25,71 +25,83 @@
   </head>
   <body>
     <!-- navbar start -->
-    <nav class="navbar navbar-expand-lg bg-secondary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
       <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center">
-          <!-- <img
-            src="/docs/5.3/assets/brand/bootstrap-logo.svg"
-            alt="Logo"
-            width="30"
-            height="24"
-            class="d-inline-block align-text-top"
-          /> -->
-          <img th:src="@{/img/sb.jpg}" style="width: 30px; margin-bottom: 2px;" alt="">
-          <!-- S.B. Jain Institute of Technology and Management Research -->
-          <h5 class="text-white">S.B. Jain Institute of Technology and Management Research</h5>
+        <a th:if= "${loggedInUser}" class="navbar-brand" th:href="@{/admin/home}">
+          <img th:src="@{/img/sb.jpg}" style="width: 30px" alt="" />
+          <span class="d-none d-lg-inline"
+            >S.B. Jain Institute of Technology and Management Research</span
+          >
+          <span class="d-inline d-lg-none">S.B. Jain Institute</span>
         </a>
-        <div class="text-end">
-          <a
-            th:unless="${loggedInUser}"
-            th:href="@{/}"
-            class="btn btn-light m"
-            type="submit"
-            >Home</a
+        <a th:unless= "${loggedInUser}" class="navbar-brand" th:href="@{/}">
+          <img th:src="@{/img/sb.jpg}" style="width: 30px" alt="" />
+          <span class="d-none d-lg-inline"
+            >S.B. Jain Institute of Technology and Management Research</span
           >
-          <a
-            th:unless="${loggedInUser}"
-            th:href="@{/admin/login}"
-            class="btn btn-primary m-1"
-            type="submit"
-            >Admin Login</a
-          >
-          <a
-            th:unless="${loggedInUser}"
-            th:href="@{/search}"
-            class="btn btn-success m-1"
-            type="submit"
-            >View Result</a
-          >
-          <a
-            th:if="${loggedInUser}"
-            th:href="@{/admin/home}"
-            class="btn btn-success m-1"
-            type="submit"
-            >Home</a
-          >
-          <a
-            th:if="${loggedInUser}"
-            th:href="@{/admin/add-student}"
-            class="btn btn-primary m-1"
-            type="submit"
-            >Add Student</a
-          >
-          <a
-            th:if="${loggedInUser}"
-            th:href="@{/logout}"
-            class="btn btn-danger"
-            type="submit"
-            >Logout</a
-          >
+          <span class="d-inline d-lg-none">S.B. Jain Institute</span>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse justify-content-end"
+          id="navbarNav"
+        >
+          <ul class="navbar-nav">
+            <li th:unless="${loggedInUser}" class="nav-item">
+              <a th:href="@{/}" class="btn btn-outline-success nav-link">Home</a>
+            </li>
+            <li th:unless="${loggedInUser}" class="nav-item">
+              <a th:href="@{/admin/login}" class="btn btn-outline-primary nav-link">Admin Login</a>
+            </li>
+            <li th:unless="${loggedInUser}" class="nav-item">
+              <a th:href="@{/search}" class="btn btn-outline-success nav-link">View Result</a>
+            </li>
+            <li th:if="${loggedInUser}" class="nav-item">
+              <a th:href="@{/admin/home}" class="btn btn-outline-success nav-link">Home</a>
+            </li>
+            <li th:if="${loggedInUser}" class="nav-item">
+              <a th:href="@{/admin/home/students-with-backlog}" class="btn btn-outline-warning nav-link"
+                >Backlog Students</a
+              >
+            </li>
+            <li th:if="${loggedInUser}" class="nav-item">
+              <a th:href="@{/admin/add-student}" class="btn btn-outline-primary nav-link"
+                >Add Student</a
+              >
+            </li>
+            <li th:if="${loggedInUser}" class="nav-item">
+              <a th:href="@{/logout}" class="btn btn-outline-danger nav-link">Logout</a>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
     <!-- navbar end -->
 
-    <div th:replace="${content}"></div>
+    <div class="container-fluid" th:replace="${content}"></div>
 
     <script th:src="@{/js/script.js}"></script>
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
+      integrity="sha384-BUZN8y5mMzL0cygRYif1vCk8h10cmS0L7A/Brvyz/YUVlW2Hb1to2lq3gh+dmmBW"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-QQeQ+6QH2rxE++f3y0w1z5jvZvDdKhtrZyhUckDo9vyNub0lkq62F1o1jEw4Ia9g"
+      crossorigin="anonymous"
+    ></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
       integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="

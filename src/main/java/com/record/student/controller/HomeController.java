@@ -5,8 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.record.student.helper.Message;
 import com.record.student.model.Student;
 import com.record.student.service.StudentService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class HomeController {
@@ -26,11 +30,12 @@ public class HomeController {
     public String home(Model m) {
 
         m.addAttribute("tittle", "Search Result");
+
         return "search_result";
     }
 
     @GetMapping("/search/student")
-    public String searchStudent(@RequestParam("id") String id, @RequestParam("email") String email, Model m) {
+    public String searchStudent(@RequestParam("id") String id, @RequestParam("email") String email, Model m,HttpSession session) {
 
         System.out.println("id: " + id);
         System.out.println("name: " + email);
@@ -42,14 +47,19 @@ public class HomeController {
             System.out.println(student);
 
             m.addAttribute("s", student);
+
             m.addAttribute("tittle", "Result : "+student.getName());
+
             return "view_result";
 
         } catch (Exception e) {
             
-            m.addAttribute("message", "Student Not Found");
+            session.setAttribute("message", new Message("Student Not Found","alert-danger"));
+
             System.out.println(e.getMessage());
+
             m.addAttribute("tittle", "Result Not Found");
+
             return "search_result";
 
         }
