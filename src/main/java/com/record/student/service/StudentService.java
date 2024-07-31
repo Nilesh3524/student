@@ -24,7 +24,7 @@ public class StudentService {
 
         boolean f = false;
 
-        if (this.studentRepo.findById(student.getId()).isPresent()) {
+        if (this.studentRepo.findById(student.getId()).isPresent() || this.studentRepo.findByEmail(student.getEmail()).isPresent()) {
             f = true;
         }
 

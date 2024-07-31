@@ -58,29 +58,29 @@
         >
           <ul class="navbar-nav">
             <li th:unless="${loggedInUser}" class="nav-item">
-              <a th:href="@{/}" class="btn btn-outline-success nav-link">Home</a>
+              <a th:href="@{/}" class="btn btn-outline-success nav-link text-white">Home</a>
             </li>
             <li th:unless="${loggedInUser}" class="nav-item">
-              <a th:href="@{/admin/login}" class="btn btn-outline-primary nav-link">Admin Login</a>
+              <a th:href="@{/admin/login}" class="btn btn-outline-primary text-white nav-link">Admin Login</a>
             </li>
             <li th:unless="${loggedInUser}" class="nav-item">
-              <a th:href="@{/search}" class="btn btn-outline-success nav-link">View Result</a>
+              <a th:href="@{/search}" class="btn btn-outline-success text-white nav-link">View Result</a>
             </li>
             <li th:if="${loggedInUser}" class="nav-item">
-              <a th:href="@{/admin/home}" class="btn btn-outline-success nav-link">Home</a>
+              <a th:href="@{/admin/home}" class="btn btn-outline-success text-white nav-link">Home</a>
             </li>
             <li th:if="${loggedInUser}" class="nav-item">
-              <a th:href="@{/admin/home/students-with-backlog}" class="btn btn-outline-warning nav-link"
+              <a th:href="@{/admin/home/students-with-backlog}" class="btn btn-outline-warning text-white nav-link"
                 >Backlog Students</a
               >
             </li>
             <li th:if="${loggedInUser}" class="nav-item">
-              <a th:href="@{/admin/add-student}" class="btn btn-outline-primary nav-link"
+              <a th:href="@{/admin/add-student}" class="btn btn-outline-primary text-white nav-link"
                 >Add Student</a
               >
             </li>
             <li th:if="${loggedInUser}" class="nav-item">
-              <a th:href="@{/logout}" class="btn btn-outline-danger nav-link">Logout</a>
+              <a th:href="@{/logout}" class="btn btn-outline-danger text-white nav-link">Logout</a>
             </li>
           </ul>
         </div>

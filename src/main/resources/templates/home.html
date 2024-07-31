@@ -81,7 +81,18 @@
                           </td>
                           <td th:text="${s.branch}">Data 3</td>
                           <td th:text="${s.phone}">Data 4</td>
-                          <td th:text="${s.email}">Data 5</td>
+                          <td>
+                            <a
+                              th:href="@{'/admin/student/'+${s.id}}"
+                              style="
+                                cursor: pointer;
+                                color: black;
+                                text-decoration: none;
+                              "
+                            >
+                              <p th:text="${s.email}"></p>
+                            </a>
+                          </td>
                           <td th:text="${s.forum}">Data 6</td>
                           <td th:text="${s.cgpa}">Data 16</td>
                           <td th:text="${s.avgAttendance}">Data 25</td>
