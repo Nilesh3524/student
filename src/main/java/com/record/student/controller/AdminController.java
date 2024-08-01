@@ -21,6 +21,7 @@ import com.record.student.service.StudentService;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -29,7 +30,7 @@ public class AdminController {
     private StudentService studentService;
 
     @GetMapping("/home")
-    public String home(Model m,HttpSession session) {
+    public String home(Model m, HttpSession session) {
 
         List<Student> students = this.studentService.getAllStudents().get();
 
@@ -41,15 +42,15 @@ public class AdminController {
 
         return "home";
     }
-    
+
     @GetMapping("/home/students-with-backlog")
-    public String backlogStudents(Model m,HttpSession session) {
+    public String backlogStudents(Model m, HttpSession session) {
 
         List<Student> studentsWithBacklog = this.studentService.getAllStudents()
-        .get()
-        .stream()
-        .filter(s -> s.getBacklog().equals("yes"))
-        .toList();
+                .get()
+                .stream()
+                .filter(s -> s.getBacklog().equals("yes"))
+                .toList();
 
         // System.out.println(studentsWithBacklog);
 
@@ -63,7 +64,7 @@ public class AdminController {
     }
 
     @GetMapping("/add-student")
-    public String addStudent(Model m,HttpSession session) {
+    public String addStudent(Model m, HttpSession session) {
 
         m.addAttribute("tittle", "Add Student Record");
         // session.setAttribute("message", new Message());
@@ -73,24 +74,24 @@ public class AdminController {
     }
 
     @PostMapping("/process-add-student")
-    public String processAddStudent(@Valid @ModelAttribute("student") Student student, BindingResult res,Model m,HttpSession session) {
+    public String processAddStudent(@Valid @ModelAttribute("student") Student student, BindingResult res, Model m,
+            HttpSession session) {
 
         if (res.hasErrors()) {
             m.addAttribute("student", student);
             return "addStudent";
         }
 
-
         if (this.studentService.isStudentExists(student)) {
-            
-            // att.addAttribute("message", new Message("Student record already exits", "alert-danger"));
+
+            // att.addAttribute("message", new Message("Student record already exits",
+            // "alert-danger"));
 
             session.setAttribute("message", new Message("Student Record Already Exits", "alert-danger"));
 
             return "addStudent";
 
         }
-
 
         double totalSgpa = student.getSgpa1() + student.getSgpa2() + student.getSgpa3() + student.getSgpa4()
                 + student.getSgpa5() + student.getSgpa6() + student.getSgpa7() + student.getSgpa8();
@@ -115,10 +116,10 @@ public class AdminController {
 
             this.studentService.save(student);
             session.setAttribute("message", new Message("Student Record Added", "alert-success"));
-            // att.addAttribute("message", new Message("Student Record Added", "alert-success"));
-    
+            // att.addAttribute("message", new Message("Student Record Added",
+            // "alert-success"));
+
             return "redirect:home";
-            
 
         } catch (Exception e) {
 
@@ -142,9 +143,10 @@ public class AdminController {
     }
 
     @PostMapping("/process-login")
-    public String processLogin(HttpSession session,BindingResult res) {
+    public String processLogin(HttpSession session, BindingResult res) {
 
-        // Message message = Message.builder().content("Login Success").type("alert-success").build();
+        // Message message = Message.builder().content("Login
+        // Success").type("alert-success").build();
 
         session.setAttribute("message", new Message("message", "alert-success"));
 
@@ -154,19 +156,32 @@ public class AdminController {
     @GetMapping("/student/{id}")
     public String showDetails(@PathVariable("id") String id, Model m) {
 
-        Student student = this.studentService.getStudentById(id).get();
+        try {
 
-        Optional.ofNullable(student)
-                .ifPresentOrElse(s -> {
+            Student student = this.studentService.getStudentById(id).get();
 
-                    m.addAttribute("s", student);
+            Optional.ofNullable(student)
+                    .ifPresentOrElse(s -> {
 
-                }, () -> {
-                });
+                        m.addAttribute("s", student);
 
-        m.addAttribute("tittle", student.getName());
+                    }, () -> {
+                    });
 
-        return "show_details";
+            m.addAttribute("tittle", student.getName());
+            
+            return "show_details";
+
+
+        } catch (Exception e) {
+            
+            System.out.println("student not found !!");
+
+            // m.addAttribute("s", new Student());
+
+            return "redirect:/admin/home";
+        }
+
     }
 
     @GetMapping("/student/update/{id}")
@@ -176,18 +191,19 @@ public class AdminController {
 
         m.addAttribute("student", student);
 
-        m.addAttribute("tittle", "update student : "+student.getId());
+        m.addAttribute("tittle", "update student : " + student.getId());
 
         return "update_student";
 
     }
 
     @PostMapping("/update/student/{id}")
-    public String updateFormHandler(@Valid @ModelAttribute("student") Student student,BindingResult res,@PathVariable("id") String id,Model m,HttpSession session) {
+    public String updateFormHandler(@Valid @ModelAttribute("student") Student student, BindingResult res,
+            @PathVariable("id") String id, Model m, HttpSession session) {
 
         if (res.hasErrors()) {
-            
-            m.addAttribute("student",student);
+
+            m.addAttribute("student", student);
 
             return "update_student";
         }
@@ -218,7 +234,7 @@ public class AdminController {
     }
 
     @GetMapping("/student/delete/{id}")
-    public String deleteStudent(@PathVariable("id") String id,HttpSession session) {
+    public String deleteStudent(@PathVariable("id") String id, HttpSession session) {
 
         this.studentService.deleteStudentById(id);
 

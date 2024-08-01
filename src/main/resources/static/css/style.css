@@ -49,3 +49,11 @@ width: 100%; /* Ensure table takes full width of the container */
     margin: 0;
     font-size: 1.25rem;
 }
+
+
+/* Custom CSS for small screens */
+@media (max-width: 768px) {
+.custom-button-spacing {
+    margin-top: 15px; /* Increase spacing on smaller screens */
+}
+}
