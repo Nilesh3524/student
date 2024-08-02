@@ -169,12 +169,11 @@ public class AdminController {
                     });
 
             m.addAttribute("tittle", student.getName());
-            
+
             return "show_details";
 
-
         } catch (Exception e) {
-            
+
             System.out.println("student not found !!");
 
             // m.addAttribute("s", new Student());
@@ -187,13 +186,21 @@ public class AdminController {
     @GetMapping("/student/update/{id}")
     public String updateStudent(@PathVariable("id") String id, Model m) {
 
-        Student student = this.studentService.getStudentById(id).get();
+        try {
 
-        m.addAttribute("student", student);
+            Student student = this.studentService.getStudentById(id).get();
 
-        m.addAttribute("tittle", "update student : " + student.getId());
+            m.addAttribute("student", student);
 
-        return "update_student";
+            m.addAttribute("tittle", "update student : " + student.getId());
+
+            return "update_student";
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println("student not found !!");
+            return "redirect:/admin/home";
+        }
 
     }
 
