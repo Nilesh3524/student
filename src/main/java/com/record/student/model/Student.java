@@ -5,7 +5,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -64,5 +63,7 @@ public class Student {
     private String certification;
     @NotEmpty(message = "Fill out the field !!")
     private String participation;
+    private double SSCPercent;
+    private double HSCPercent;
 
 }

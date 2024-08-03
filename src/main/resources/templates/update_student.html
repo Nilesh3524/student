@@ -105,14 +105,78 @@
                       class="form-control"
                       id="branch"
                     >
-                      <option value="CSE">Computer Science Engineering</option>
-                      <option value="ETE">
-                        Electronics and Telecommunication Engineering
-                      </option>
-                      <option value="EE">Electrical Engineering</option>
-                      <option value="ME">Mechanical Engineering</option>
-                      <option value="AIDS">Data Science</option>
-                      <option value="ML">Machine Learning</option>
+                      <th:block th:switch= "${student.branch}">
+
+                        <th:block th:case= "CSE">
+                          <option value="CSE" selected>Computer Science Engineering</option>
+                          <option value="ETE">
+                            Electronics and Telecommunication Engineering
+                          </option>
+                          <option value="EE">Electrical Engineering</option>
+                          <option value="ME">Mechanical Engineering</option>
+                          <option value="AIDS">Data Science</option>
+                          <option value="ML">Machine Learning</option>
+                          
+                        </th:block>
+                        <th:block th:case= "ETE">
+                          <option value="CSE" >Computer Science Engineering</option>
+                          <option value="ETE" selected>
+                            Electronics and Telecommunication Engineering
+                          </option>
+                          <option value="EE">Electrical Engineering</option>
+                          <option value="ME">Mechanical Engineering</option>
+                          <option value="AIDS">Data Science</option>
+                          <option value="ML">Machine Learning</option>
+                          
+                        </th:block>
+                        <th:block th:case= "EE">
+                          <option value="CSE" >Computer Science Engineering</option>
+                          <option value="ETE">
+                            Electronics and Telecommunication Engineering
+                          </option>
+                          <option value="EE" selected>Electrical Engineering</option>
+                          <option value="ME">Mechanical Engineering</option>
+                          <option value="AIDS">Data Science</option>
+                          <option value="ML">Machine Learning</option>
+                          
+                        </th:block>
+                        <th:block th:case= "ME">
+                          <option value="CSE" >Computer Science Engineering</option>
+                          <option value="ETE">
+                            Electronics and Telecommunication Engineering
+                          </option>
+                          <option value="EE">Electrical Engineering</option>
+                          <option value="ME" selected>Mechanical Engineering</option>
+                          <option value="AIDS">Data Science</option>
+                          <option value="ML">Machine Learning</option>
+                          
+                        </th:block>
+                        <th:block th:case= "AIDS">
+                          <option value="CSE" >Computer Science Engineering</option>
+                          <option value="ETE">
+                            Electronics and Telecommunication Engineering
+                          </option>
+                          <option value="EE">Electrical Engineering</option>
+                          <option value="ME">Mechanical Engineering</option>
+                          <option value="AIDS" selected>Data Science</option>
+                          <option value="ML">Machine Learning</option>
+                          
+                        </th:block>
+                        <th:block th:case= "ML">
+                          <option value="CSE">Computer Science Engineering</option>
+                          <option value="ETE">
+                            Electronics and Telecommunication Engineering
+                          </option>
+                          <option value="EE">Electrical Engineering</option>
+                          <option value="ME">Mechanical Engineering</option>
+                          <option value="AIDS">Data Science</option>
+                          <option value="ML" selected>Machine Learning</option>
+                          
+                        </th:block>
+                        
+
+                      </th:block>
+
                     </select>
                   </div>
 
@@ -124,8 +188,17 @@
                       class="form-control"
                       id="forum"
                     >
-                      <option value="yes">Yes</option>
-                      <option value="no">No</option>
+                      <th:block th:if= "${student.forum == 'yes'}">
+
+                        <option value="yes" selected>Yes</option>
+                        <option value="no">No</option>
+                      </th:block>
+
+                      <th:block th:if= "${student.forum == 'no'}">
+
+                        <option value="yes">Yes</option>
+                        <option value="no" selected>No</option>
+                      </th:block>
                     </select>
                   </div>
 
@@ -145,6 +218,32 @@
                       class="invalid-feedback"
                       th:text="${e}"
                     ></div>
+                  </div>
+
+                  <!-- SSC Percent -->
+                  <div class="form-group">
+                    <label for="SSC">SCC (%):</label>
+                    <input
+                      name="SSCPercent"
+                      type="number"
+                      class="form-control"
+                      id="SSCPercent"
+                      th:value="${student.SSCPercent}"
+                      required
+                    ></input>
+                  </div>
+                  
+                  <!-- HSC Percent -->
+                  <div class="form-group">
+                    <label for="HSC">HCC (%):</label>
+                    <input
+                      type="number"
+                      name="HSCPercent"
+                      class="form-control"
+                      id="HSCPercent"
+                      th:value="${student.HSCPercent}"
+                      required
+                    ></input>
                   </div>
 
                   <!-- sgpa1 -->
@@ -427,8 +526,16 @@
                   <div class="form-group">
                     <label for="backlog">Student Pass with Backlog:</label>
                     <select name="backlog" class="form-control" id="backlog">
-                      <option value="yes">Yes</option>
-                      <option value="no">No</option>
+                      <th:block th:if= "${student.backlog == 'yes'}">
+                        <option value="yes" selected>Yes</option>
+                        <option value="no">No</option>
+                      </th:block>
+                      
+                      <th:block th:if= "${student.backlog == 'no'}">
+                        <option value="yes">Yes</option>
+                        <option value="no" selected>No</option>
+                      </th:block>
+                    
                     </select>
                   </div>
 

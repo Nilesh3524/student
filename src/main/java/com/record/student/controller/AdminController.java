@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.record.student.helper.EmailMessage;
 import com.record.student.helper.Message;
-import com.record.student.helper.MessageType;
 import com.record.student.model.Student;
+import com.record.student.service.EmailService;
 import com.record.student.service.StudentService;
 
 import jakarta.servlet.http.HttpSession;
@@ -28,6 +28,9 @@ public class AdminController {
 
     @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping("/home")
     public String home(Model m, HttpSession session) {
@@ -233,6 +236,18 @@ public class AdminController {
         student.setAvgAttendance(avgAttendance);
 
         this.studentService.save(student);
+
+        // String to = student.getEmail();
+
+        // String message = "Hello, "+student.getName()+"!\n\n"
+        // + "Your data has been updated.\n"
+        // + student.toString()+"\n\n"
+        // + "We hope you're having a great day!\n\n"
+        // + "Best regards,\n"
+        // + "The S.B Jain Institute";
+
+
+        this.emailService.sendEmail(student.getEmail(), "Your data has been Updated", EmailMessage.getMessage(student));
 
         session.setAttribute("message", new Message("Record Updated Successfully", "alert-success"));
 
