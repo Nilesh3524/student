@@ -235,23 +235,27 @@ public class AdminController {
 
         student.setAvgAttendance(avgAttendance);
 
-        this.studentService.save(student);
+        try {
 
-        // String to = student.getEmail();
+            this.studentService.save(student);
 
-        // String message = "Hello, "+student.getName()+"!\n\n"
-        // + "Your data has been updated.\n"
-        // + student.toString()+"\n\n"
-        // + "We hope you're having a great day!\n\n"
-        // + "Best regards,\n"
-        // + "The S.B Jain Institute";
+            this.emailService.sendEmail(student.getEmail(), "Your data has been Updated", EmailMessage.getMessage(student));
 
+            session.setAttribute("message", new Message("Record Updated Successfully", "alert-success"));
 
-        this.emailService.sendEmail(student.getEmail(), "Your data has been Updated", EmailMessage.getMessage(student));
+            return "redirect:/admin/home";
+            
+        } catch (Exception e) {
+            
+            System.out.println("Student already exist with this Email !!");
+            
+            session.setAttribute("message", new Message("Student already exist with this Email !!", "alert-danger"));
 
-        session.setAttribute("message", new Message("Record Updated Successfully", "alert-success"));
+            m.addAttribute("student", student);
 
-        return "redirect:/admin/home";
+            return "update_student";
+
+        }
 
     }
 

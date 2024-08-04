@@ -13,6 +13,15 @@
     <div th:fragment="section">
       <div class="container">
         <div class="row">
+          <div
+            th:if="${session.message}"
+            th:classappend="${session.message.type}"
+            class="alert mt-3"
+            role="alert"
+          >
+            <p class="text-center" th:text="${session.message.content}"></p>
+            <th:block th:text="${@sessionHelper.removeMessage()}"></th:block>
+          </div>
           <div class="col-md-12">
             <div class="card mt-3">
               <div class="card-header">
@@ -85,6 +94,7 @@
                       name="phone"
                       type="number"
                       class="form-control"
+                      placeholder="Ex: 1234567890"
                       id="name"
                       th:value="${student.phone}"
                       th:classappend="${#fields.hasErrors('phone')?'is-invalid':''}"
@@ -540,9 +550,12 @@
                   </div>
 
                   <div class="mt-3 text-center">
-                    <button type="submit" class="btn btn-lg btn-outline-primary">
+                    <button type="submit" class="btn btn-lg btn-outline-primary mx-2">
                       Update
                     </button>
+                    <a class="btn btn-lg btn-outline-danger mx-2" th:href="@{'/admin/student/'+${student.id}}">
+                      Back
+                    </a>
                   </div>
                 </form>
 
