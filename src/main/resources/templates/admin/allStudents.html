@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="admin/base::layout(~{::section},~{::title},~{::style},~{::script})"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Students</title>
+    <style></style>
+  </head>
+  <body>
+    <section>
+      <div class="container flex-fill" style="width: 1250px">
+        <div class="container mt-5">
+          <h2 class="mb-4 text-center">All Students</h2>
+          <table class="table table-bordered">
+            <thead class="">
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Backlog</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each= "s:${students}">
+                <td th:text="${s.rollNo}">1</td>
+                <td th:text="${s.name}">himanshu</td>
+                <td th:text="${s.phone}">7709638870</td>
+                <td th:text="${s.email}">h@123</td>
+                <td th:text="${s.backlog?'yes':'no'}">no</td>
+                <td></td>
+              </tr>
+
+              <!-- Add more rows as needed -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  <script></script>
+  </body>
+</html>

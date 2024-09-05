@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="admin/base::layout(~{::section},~{::title},~{::style},~{::script})"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add SGPA</title>
+    <style>
+      
+    </style>
+  </head>
+  <body>
+    <section>
+      <div class="container flex-fill mt-2" style="width: 1250px;">
+        <div class="card mx-3">
+          <div class="card-header bg-primary text-white text-center">
+            <h4 class="mb-0">Add SGPA</h4>
+          </div>
+          <div class="card-body" style=" background-color: #e2e2e2">
+            <form method="post" th:action= "@{/admin/process-add-sgpa}">
+              <!-- Ensure form takes full width of the card -->
+              <!-- SGPA Fields -->
+              <input type="hidden" name="rollNo" th:value="${rollNo}">
+              <h4 class="mt-4">SGPA for Each Semester</h4>
+              <div class="row my-3">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="sgpa1">SGPA 1st Semester</label>
+
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="sgpa1"
+                      placeholder="Enter SGPA for 1st Semester"
+                      min="0"
+                      max="10"
+                      step="0.01"
+                      value="0"
+                      required
+                      name="sgpa1"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="sgpa2">SGPA 2nd Semester</label>
+
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="sgpa2"
+                      placeholder="Enter SGPA for 2nd Semester"
+                      min="0"
+                      max="10"
+                      step="0.01"
+                      value="0"
+                      required
+                      name="sgpa2"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row my-3">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="sgpa3">SGPA 3rd Semester</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="sgpa3"
+                      placeholder="Enter SGPA for 3rd Semester"
+                      min="0"
+                      max="10"
+                      step="0.01"
+                      value="0"
+                      required
+                      name="sgpa3"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="sgpa4">SGPA 4th Semester</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="sgpa4"
+                      placeholder="Enter SGPA for 4th Semester"
+                      min="0"
+                      max="10"
+                      step="0.01"
+                      value="0"
+                      required
+                      name="sgpa4"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row my-3">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="sgpa5">SGPA 5th Semester</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="sgpa5"
+                      placeholder="Enter SGPA for 5th Semester"
+                      min="0"
+                      max="10"
+                      step="0.01"
+                      value="0"
+                      required
+                      name="sgpa5"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="sgpa6">SGPA 6th Semester</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="sgpa6"
+                      placeholder="Enter SGPA for 6th Semester"
+                      min="0"
+                      max="10"
+                      step="0.01"
+                      value="0"
+                      required
+                      name="sgpa6"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row my-3">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="sgpa7">SGPA 7th Semester</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="sgpa7"
+                      placeholder="Enter SGPA for 7th Semester"
+                      min="0"
+                      max="10"
+                      step="0.01"
+                      value="0"
+                      required
+                      name="sgpa7"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="sgpa8">SGPA 8th Semester</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="sgpa8"
+                      placeholder="Enter SGPA for 8th Semester"
+                      min="0"
+                      max="10"
+                      step="0.01"
+                      value="0"
+                      required
+                      name="sgpa8"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-center mt-5">
+                <!-- Submit Button -->
+              <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

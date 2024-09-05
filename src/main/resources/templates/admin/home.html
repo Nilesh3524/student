@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        th:replace="admin/base::layout(~{::section},~{::title},~{::script},~{::style})"
+>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+
+        .card {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-weight: 600;
+        }
+
+
+    </style>
+
+</head>
+<body>
+<section>
+    <!-- Main Content -->
+    <div class="m-3 flex-fill p-3">
+
+        <h1 class="text-black" style="text-indent: 140px; ">Department of Electronics And Telecommunication</h1>
+
+        <h1 class="display-3 text-center text-black mt-4 mb-5">Welcome
+            <th:block th:text="${loggedInUser}"></th:block>
+            !
+        </h1>
+
+        <div>
+            <div class="row mx-1">
+                <div class="col-md-4 col-lg-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">User Management</h5>
+                            <p class="card-text">Add, edit, or remove users including faculty, students, and staff.</p>
+                            <a href="#" class="btn btn-primary">Manage Users</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-lg-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Course Management</h5>
+                            <p class="card-text">Manage courses, assign faculty, and edit course details.</p>
+                            <a href="#" class="btn btn-primary">Manage Courses</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-lg-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Attendance Tracking</h5>
+                            <p class="card-text">Track and manage student attendance.</p>
+                            <a href="#" class="btn btn-primary">Manage Attendance</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-lg-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Results & Grades</h5>
+                            <p class="card-text">View and update student results and grades.</p>
+                            <a href="#" class="btn btn-primary">View Results</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<script></script>
+</body>
+</html>
