@@ -257,4 +257,32 @@ public class AdminController {
     public String backlogStudents(){
         return "admin/backlogStudents";
     }
+
+
+    //delete student
+    @GetMapping("/student/delete/{rollNo}")
+    public String deleteStudent(@PathVariable String rollNo) {
+
+//        System.out.println(rollNo);
+
+        if (this.studentService.isStudentExits(rollNo)) {
+
+            this.studentService.deleteStudent(rollNo);
+
+            return "redirect:/admin/all-students";
+
+        }else {
+
+            return "redirect:dashboard";
+
+        }
+
+    }
+
+//    update student
+    @GetMapping("/student/update/{rollNo}")
+    public String updateStudent(@PathVariable String rollNo, Model m){
+
+        return "admin/updateStudent";
+    }
 }

@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <title th:replace="${title}">Base</title>
     <th:block th:replace="${link}"></th:block>
+    <style>
+        section {
+            background-color: lightgray;
+        }
+    </style>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -45,8 +50,8 @@
                     th:href="@{/admin/home}"
             >
                 <img th:src="@{/img/sb.jpg}" style="width: 30px" alt=""/>
-                <span class="d-none d-lg-inline"
-                ><p style="color: white !important;">S.B. Jain Institute of Technology and Management Research</p></span
+                <span class=""
+                ><div><p class="text-white">S.B. Jain Institute of Technology and Management Research</p></div></span
                 >
                 <span class="d-inline d-lg-none" style="color: white !important;">S.B. Jain Institute</span>
             </a>

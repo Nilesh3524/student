@@ -377,15 +377,22 @@
     </div>
 </section>
 <script>
-    $(document).ready(function () {
+    document.addEventListener("DOMContentLoaded", function () {
         for (let i = 1; i <= 8; i++) {
-            $(`#totalDays${i}, #presentDays${i}`).on("input", function () {
-                let totalDays = parseFloat($(`#totalDays${i}`).val());
-                let presentDays = parseFloat($(`#presentDays${i}`).val());
-                let attendancePercentage =
+            const totalDaysInput = document.getElementById(`totalDays${i}`);
+            const presentDaysInput = document.getElementById(`presentDays${i}`);
+            const attendanceInput = document.getElementById(`attendance${i}`);
+
+            const calculateAttendance = () => {
+                const totalDays = parseFloat(totalDaysInput.value) || 0;
+                const presentDays = parseFloat(presentDaysInput.value) || 0;
+                const attendancePercentage =
                     totalDays > 0 ? ((presentDays / totalDays) * 100).toFixed(2) : 0;
-                $(`#attendance${i}`).val(attendancePercentage);
-            });
+                attendanceInput.value = attendancePercentage;
+            };
+
+            totalDaysInput.addEventListener("input", calculateAttendance);
+            presentDaysInput.addEventListener("input", calculateAttendance);
         }
     });
 </script>

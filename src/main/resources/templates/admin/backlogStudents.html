@@ -18,25 +18,25 @@
           <table class="table table-bordered">
             <thead class="thead-dark">
               <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>Backlog</th>
-                <th>backlog subjects</th>
-                <th>Current Backlog</th>
+                <th class="text-center" >ID</th>
+                <th class="text-center" >Name</th>
+                <th class="text-center" >Phone</th>
+                <th class="text-center" >Email</th>
+                <th class="text-center" >Backlog</th>
+                <th class="text-center" >backlog subjects</th>
+                <th class="text-center" >Current Backlog</th>
               </tr>
             </thead>
             <tbody>
               <tr th:each="s:${students}" th:if= "${s.backlog}">
                 
-                  <td th:text="${s.rollNo}">1</td>
-                  <td th:text="${s.name}">himanshu</td>
-                  <td th:text="${s.phone}">7709638870</td>
-                  <td th:text="${s.email}">h@123</td>
-                  <td th:text="${s.backlog?'yes':'no'}"></td>
-                  <td th:text="${s.backSub}">sub</td>
-                  <td th:text="${s.currentBacklog}">current backlog</td>
+                  <td class="text-center" th:text="${s.rollNo}">1</td>
+                  <td class="text-center" th:text="${s.name}">himanshu</td>
+                  <td class="text-center" th:text="${s.phone}">7709638870</td>
+                  <td class="text-center" th:text="${s.email}">h@123</td>
+                  <td class="text-center" th:text="${s.backlog?'yes':'no'}"></td>
+                  <td class="text-center" th:text="${s.backSub}">sub</td>
+                  <td class="text-center" th:text="${s.currentBacklog}">current backlog</td>
                 
               </tr>
 
