@@ -14,16 +14,35 @@
   </head>
   <body>
     <section>
+      <div
+              id="alert"
+              th:if="${session.message}"
+              th:classappend="${session.message.type}"
+              class="alert my-2 mx-4"
+              style="height: 60px"
+              role="alert"
+      >
+        <p class="text-center" th:text="${session.message.content}"></p>
+        <th:block th:text="${@sessionHelper.removeMessage()}"></th:block>
+      </div>
       <div class="container flex-fill mt-2" style="width: 1250px;">
         <div class="card mx-3 mt-3">
           <div class="card-header bg-primary text-white text-center">
             <h4 class="mb-0">Add SGPA</h4>
           </div>
           <div class="card-body" style=" background-color: #e2e2e2">
-            <form method="post" th:action= "@{/admin/process-add-sgpa}">
+            <form novalidate method="post" th:action= "@{/admin/process-add-sgpa}" enctype="multipart/form-data">
               <!-- Ensure form takes full width of the card -->
               <!-- SGPA Fields -->
-              <input type="hidden" name="rollNo" th:value="${rollNo}">
+              <div class="row">
+                <div class="col-2">
+                  <p class="form-control"  style="background-color: #e2e2e2">Enter Student ID : </p>
+                </div>
+                <div class="col-2">
+                  <input class="form-control" type="text" name="rollNo" required/>
+
+                </div>
+              </div>
               <h4 class="mt-4">SGPA for Each Semester</h4>
               <div class="row my-3">
                 <div class="col-md-6">
@@ -31,14 +50,10 @@
                     <label for="sgpa1">SGPA 1st Semester</label>
 
                     <input
-                      type="number"
+                      type="file"
                       class="form-control"
                       id="sgpa1"
                       placeholder="Enter SGPA for 1st Semester"
-                      min="0"
-                      max="10"
-                      step="0.01"
-                      value="0"
                       required
                       name="sgpa1"
                     />
@@ -49,14 +64,10 @@
                     <label for="sgpa2">SGPA 2nd Semester</label>
 
                     <input
-                      type="number"
+                      type="file"
                       class="form-control"
                       id="sgpa2"
                       placeholder="Enter SGPA for 2nd Semester"
-                      min="0"
-                      max="10"
-                      step="0.01"
-                      value="0"
                       required
                       name="sgpa2"
                     />
@@ -68,14 +79,9 @@
                   <div class="form-group">
                     <label for="sgpa3">SGPA 3rd Semester</label>
                     <input
-                      type="number"
+                      type="file"
                       class="form-control"
                       id="sgpa3"
-                      placeholder="Enter SGPA for 3rd Semester"
-                      min="0"
-                      max="10"
-                      step="0.01"
-                      value="0"
                       required
                       name="sgpa3"
                     />
@@ -85,14 +91,9 @@
                   <div class="form-group">
                     <label for="sgpa4">SGPA 4th Semester</label>
                     <input
-                      type="number"
+                      type="file"
                       class="form-control"
                       id="sgpa4"
-                      placeholder="Enter SGPA for 4th Semester"
-                      min="0"
-                      max="10"
-                      step="0.01"
-                      value="0"
                       required
                       name="sgpa4"
                     />
@@ -104,14 +105,9 @@
                   <div class="form-group">
                     <label for="sgpa5">SGPA 5th Semester</label>
                     <input
-                      type="number"
+                      type="file"
                       class="form-control"
                       id="sgpa5"
-                      placeholder="Enter SGPA for 5th Semester"
-                      min="0"
-                      max="10"
-                      step="0.01"
-                      value="0"
                       required
                       name="sgpa5"
                     />
@@ -121,14 +117,9 @@
                   <div class="form-group">
                     <label for="sgpa6">SGPA 6th Semester</label>
                     <input
-                      type="number"
+                      type="file"
                       class="form-control"
                       id="sgpa6"
-                      placeholder="Enter SGPA for 6th Semester"
-                      min="0"
-                      max="10"
-                      step="0.01"
-                      value="0"
                       required
                       name="sgpa6"
                     />
@@ -140,14 +131,9 @@
                   <div class="form-group">
                     <label for="sgpa7">SGPA 7th Semester</label>
                     <input
-                      type="number"
+                      type="file"
                       class="form-control"
                       id="sgpa7"
-                      placeholder="Enter SGPA for 7th Semester"
-                      min="0"
-                      max="10"
-                      step="0.01"
-                      value="0"
                       required
                       name="sgpa7"
                     />
@@ -157,14 +143,9 @@
                   <div class="form-group">
                     <label for="sgpa8">SGPA 8th Semester</label>
                     <input
-                      type="number"
+                      type="file"
                       class="form-control"
                       id="sgpa8"
-                      placeholder="Enter SGPA for 8th Semester"
-                      min="0"
-                      max="10"
-                      step="0.01"
-                      value="0"
                       required
                       name="sgpa8"
                     />
@@ -181,6 +162,16 @@
         </div>
       </div>
     </section>
-    <script></script>
+    <script>
+      // Hide alert after 3 seconds
+      window.onload = function () {
+        const alertBox = document.getElementById('alert');
+        if (alertBox) {
+          setTimeout(function () {
+            alertBox.style.display = 'none';
+          }, 3000); // 3000ms = 3 seconds
+        }
+      };
+    </script>
   </body>
 </html>

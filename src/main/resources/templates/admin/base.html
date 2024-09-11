@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title th:text="${tittle}">Home</title>
+    <title th:replace="${title}"></title>
     <style th:replace="${style}"></style>
     <style>
         .acc {
@@ -15,7 +15,7 @@
         }
 
         #sidebar {
-            height: 120vh;
+            height: 130vh;
             margin-top: 3px;
             background-color: skyblue;
         }
@@ -78,7 +78,7 @@
 
 <body>
 <!-- navbar start -->
-<nav class="navbar navbar-expand-lg" style="background-color: #3939ff">
+<nav class="navbar navbar-expand-lg" style="background-color: #3939ff; height: 60px">
     <div class="container-fluid">
         <a
                 th:if="${loggedInUser}"
@@ -86,17 +86,19 @@
                 th:href="@{/admin/home}"
         >
             <img th:src="@{/img/sb.jpg}" style="width: 30px" alt=""/>
-            <span class="d-none d-lg-inline"
-            >S.B. Jain Institute of Technology and Management Research</span
+            <div class="d-none d-lg-inline text-white"
+            >S.B. Jain Institute of Technology and Management Research
+            </div
             >
             <span class="d-inline d-lg-none">S.B. Jain Institute</span>
         </a>
-        <a th:unless="${loggedInUser}" class="navbar-brand" th:href="@{/}">
+        <a th:unless="${loggedInUser}" class="navbar-brand" th:href="@{/}" style="text-decoration: none">
             <img th:src="@{/img/sb.jpg}" style="width: 30px" alt=""/>
-            <span class="d-none d-lg-inline"
-            >S.B. Jain Institute of Technology and Management Research</span
+            <div class="d-none d-lg-inline" style="color: white"
+            >S.B. Jain Institute of Technology and Management Research
+            </div
             >
-            <span class="d-inline d-lg-none">S.B. Jain Institute</span>
+            <div class="d-inline d-lg-none">S.B. Jain Institute</div>
         </a>
         <button
                 class="navbar-toggler"
@@ -192,11 +194,11 @@
                         Student</a>
                 </li>
                 <li class="nav-item my-1">
-                    <a class="acc nav-link" th:href="@{/admin/search-attendence}"><i
+                    <a class="acc nav-link" th:href="@{/admin/add-attendence}"><i
                             class="fa-solid fa-address-card"></i>&nbsp; Add Attendance</a>
                 </li>
                 <li class="nav-item my-1">
-                    <a class="acc nav-link" th:href="@{/admin/search-sgpa}"><i
+                    <a class="acc nav-link" th:href="@{/admin/add-sgpa}"><i
                             class="fa-solid fa-square-poll-horizontal"></i>&nbsp; Add SGPA</a>
                 </li>
                 <li class="nav-item my-1">
@@ -208,6 +210,10 @@
                         Backlog Students</a>
                 </li>
                 <li class="nav-item my-1">
+                    <a class="acc nav-link" th:href="@{/admin/upload-result}"><i class="fa-solid fa-clover"></i>&nbsp;
+                        Upload Result</a>
+                </li>
+                <li class="nav-item my-1">
                     <a class="acc nav-link" th:href="@{/admin/logout}"><i class="fa-solid fa-right-to-bracket"></i>&nbsp;
                         Logout</a>
                 </li>
@@ -215,6 +221,131 @@
         </div>
     </nav>
     <!-- Sidebar end -->
+
+
+    <!-- update student Modal -->
+    <div
+            class="modal fade"
+            id="staticBackdrop"
+            data-mdb-backdrop="static"
+            data-mdb-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Edit Student</h5>
+                    <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" th:action="@{/admin/student/update}" id="editStudentForm">
+                        <!-- Row 1 - rollno -->
+
+                        <div class="form-group row text-center">
+                            <div class="col">
+                                <p>Student ID :</p>
+                            </div>
+                            <div class="col">
+                                <input class="form-control" type="text" id="rollNo" name="rollNo" readonly>
+
+                            </div>
+                        </div>
+
+                        <!-- Row 2 - name -->
+
+                        <div class="form-group row text-center">
+                            <div class="col">
+                                <p>Name :</p>
+                            </div>
+                            <div class="col">
+                                <input class="form-control" type="text" id="name" name="name" required>
+
+                            </div>
+                        </div>
+
+                        <!-- Row 3 - Branch -->
+
+                        <div class="form-group row text-center">
+                            <div class="col">
+                                <p>Branch :</p>
+                            </div>
+                            <div class="col">
+
+                                <input class="form-control" type="text" id="branch" name="branch" readonly>
+
+                            </div>
+                        </div>
+
+
+                        <!-- Row 4 - email -->
+
+                        <div class="form-group row text-center">
+                            <div class="col">
+                                <p>Email :</p>
+                            </div>
+                            <div class="col">
+                                <input class="form-control" type="email" id="email" name="email" required>
+
+                            </div>
+                        </div>
+
+                        <!-- Row 5 - phone -->
+
+                        <div class="form-group row text-center">
+                            <div class="col">
+                                <p>Phone :</p>
+                            </div>
+                            <div class="col">
+                                <input class="form-control" type="number" id="phone" name="phone" required>
+
+                            </div>
+                        </div>
+
+
+                        <!-- Row 6 - current backlog -->
+
+                        <div class="form-group row text-center">
+                            <div class="col">
+                                <p>Current Backlog :</p>
+                            </div>
+                            <div class="col">
+
+                                <textarea class="form-control" name="currentBacklog" id="currentBacklog"
+                                          rows="2"></textarea>
+
+                            </div>
+                        </div>
+
+                        <!-- Row 7 - cerificate -->
+
+                        <div class="form-group row text-center">
+                            <div class="col">
+                                <p>Certifiacte :</p>
+                            </div>
+                            <div class="col">
+
+                                <textarea class="form-control" name="cetification" id="certification"
+                                          rows="2"></textarea>
+
+                            </div>
+                        </div>
+
+                        <div class="modal-footer text-center">
+                            <button type="button" class="btn btn-secondary" data-mdb-ripple-init
+                                    data-mdb-dismiss="modal">Close
+                            </button>
+                            <button type="submit" class="btn btn-primary" data-mdb-ripple-init>Save Changes</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div class="vw-100">
 
@@ -245,6 +376,13 @@
         type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"
 ></script>
+<!-- MDB -->
+<script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"
+></script>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script th:replace="${script}"></script>
 </body>

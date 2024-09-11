@@ -12,6 +12,25 @@
 </head>
 <body>
 <section>
+    <div
+            class="alert my-2 mx-4 text-center d-none"
+            id="my-alert"
+            style="height: 60px"
+            role="alert"
+    >
+        <p></p>
+    </div>
+    <div
+            id="alert"
+            th:if="${session.message}"
+            th:classappend="${session.message.type}"
+            class="alert my-2 mx-4"
+            style="height: 60px"
+            role="alert"
+    >
+        <p class="text-center" th:text="${session.message.content}"></p>
+        <th:block th:text="${@sessionHelper.removeMessage()}"></th:block>
+    </div>
     <div class="container flex-fill" style="width: 1250px">
         <div class="container mt-5">
             <h2 class="mb-4 text-center">All Students</h2>
@@ -35,16 +54,20 @@
                     <td class="text-center" th:text="${s.backlog?'yes':'no'}">no</td>
                     <td class="text-center" style="font-size: 20px;">
                         <a th:href="@{'/admin/student/delete/'+${s.rollNo}}"
-                           class="m-3"
-                           onclick="return confirm('Are you sure you want to delete this student record?')"><i
+                           id="delete-alert" class="mx-3" style="color: red"
+                           ><i
                                 class="fa-solid fa-trash"></i></a>
-<!--                        <a th:href="@{'/admin/student/update/'+${s.rollNo}}"-->
-<!--                           class="m-2"><i-->
-<!--                                class="fa-solid fa-pen-to-square"></i></a>-->
+                        <a data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#staticBackdrop"
+                           th:data-rollNo="${s.rollNo}"
+                           th:data-name="${s.name}"
+                           th:data-email="${s.email}"
+                           th:data-phone="${s.phone}"
+                           th:data-branch="${s.branch}"
+                           th:data-currentBacklog="${s.currentBacklog}"
+                           th:data-cetification="${s.cetification}"
+                           class="mx-2 edit-student" style="color: green"><i
+                                class="fa-solid fa-pen-to-square "></i></a>
 
-                        <a href="#"
-                           class="m-2"><i
-                                class="fa-solid fa-pen-to-square"></i></a>
                     </td>
                 </tr>
 
@@ -54,6 +77,167 @@
         </div>
     </div>
 </section>
-<script></script>
+<script>
+    <!--    model-->
+    document.addEventListener("DOMContentLoaded", function () {
+
+
+        document.body.addEventListener('click', function (e) {
+
+
+            const button = e.target.closest('.edit-student');
+
+
+            if (button) {
+
+                console.log(button)
+
+                e.preventDefault();
+
+                const rollNo = button.getAttribute('data-rollNo');
+                const name = button.getAttribute('data-name');
+                const branch = button.getAttribute('data-branch');
+                const email = button.getAttribute('data-email');
+                const phone = button.getAttribute('data-phone');
+                const currentBacklog = button.getAttribute('data-currentBacklog');
+                const cetification = button.getAttribute('data-cetification');
+
+
+                document.getElementById('rollNo').value = rollNo;
+                document.getElementById('name').value = name;
+                document.getElementById('branch').value = branch;
+                document.getElementById('email').value = email;
+                document.getElementById('phone').value = phone;
+                document.getElementById('currentBacklog').value = currentBacklog;
+                document.getElementById('certification').value = cetification;
+
+                // const staticBackdrop = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+                // staticBackdrop.show();
+            }
+
+        });
+    });
+
+    //     form submit
+    document.addEventListener('DOMContentLoaded', function () {
+        const editForm = document.getElementById('editStudentForm');
+        if (editForm) {
+            editForm.addEventListener('submit', function (e) {
+                e.preventDefault(); // Prevent the default form submission
+
+                const formData = new FormData(this);
+
+
+                fetch('/admin/student/update', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Response from server:', data);
+
+                        if (data.success) {
+                            console.log('Student updated successfully!');
+                            // Store the success message in sessionStorage
+                            sessionStorage.setItem('alertMessage', 'Student updated successfully');
+                            sessionStorage.setItem('alertType', 'alert-info');
+                            location.reload(); // Reload the page to see the updated student data
+
+                        } else {
+                            console.log(`Failed to update student: ${data.message}`);
+                            // Store the error message in sessionStorage
+                            sessionStorage.setItem('alertMessage', 'Something went wrong');
+                            sessionStorage.setItem('alertType', 'alert-danger');
+
+                            location.reload(); // Reload the page
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        console.log('An error occurred. Please try again.');
+                        // Store the error message in sessionStorage
+                        sessionStorage.setItem('alertMessage', 'An error occurred. Please try again');
+                        sessionStorage.setItem('alertType', 'alert-danger');
+
+                        location.reload(); // Reload the page
+                    });
+            });
+        } else {
+            console.error('Form with ID "editStudentForm" not found.');
+        }
+    });
+
+    //display alert
+    document.addEventListener('DOMContentLoaded', function () {
+        // Check if there's a message in sessionStorage
+        const alertMessage = sessionStorage.getItem('alertMessage');
+        const alertType = sessionStorage.getItem('alertType');
+
+        if (alertMessage) {
+            const alert = document.getElementById('my-alert');
+            const alertContent = alert.querySelector('p');
+
+            // Display the alert with the stored message and type
+            alert.classList.remove('d-none');
+            alert.classList.add('show', alertType);
+            alertContent.textContent = alertMessage;
+
+            // Remove the message from sessionStorage after displaying
+            sessionStorage.removeItem('alertMessage');
+            sessionStorage.removeItem('alertType');
+
+            // Hide the alert after a few seconds
+            setTimeout(function () {
+                alert.classList.remove('show');
+                alert.classList.add('d-none');
+            }, 3000);
+        }
+    });
+
+    //delete alert
+    document.addEventListener('DOMContentLoaded', function () {
+        document.body.addEventListener('click', function (e) {
+            const deleteButton = e.target.closest('#delete-alert');
+
+            if (deleteButton) {
+
+                e.preventDefault(); // Prevent the link from immediately deleting the student
+
+                swal({
+                    title: "Are you sure?",
+                    text: "You want to delete this record!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            // Redirect to the href of the delete button to proceed with the deletion
+                            window.location.href = deleteButton.getAttribute('href');
+                        } else {
+                            swal("Your record is safe!");
+                        }
+                    });
+            }
+        });
+    });
+
+    // Hide alert after 3 seconds
+    window.onload = function () {
+        const alertBox = document.getElementById('alert');
+        if (alertBox) {
+            setTimeout(function () {
+                alertBox.style.display = 'none';
+            }, 3000); // 3000ms = 3 seconds
+        }
+    };
+
+
+</script>
 </body>
 </html>

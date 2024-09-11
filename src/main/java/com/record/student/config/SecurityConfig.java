@@ -72,6 +72,8 @@ public class SecurityConfig {
                             .permitAll();
                 })
 
+                .csrf(csrf->csrf.disable())
+
                 .authenticationProvider(adminAuthenticationProvider());
 
         return http.build();

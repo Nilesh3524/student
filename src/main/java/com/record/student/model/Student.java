@@ -1,6 +1,9 @@
 package com.record.student.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,19 +24,27 @@ public class Student implements UserDetails {
 
     @Id
     @Column(unique = true)
+    @NotBlank(message = "id is not blank!!")
     private String rollNo;
 
+    @NotBlank(message = "name is not empty !!")
+    @Size(min = 3,message = "name should be greater than 3 characters !!")
     private String name;
 
     private String branch;
 
+    @NotBlank(message = "mention the address!!")
     private String address;
 
     @Column(unique = true)
+    @Email(message = "enter valid email !!")
+    @NotBlank(message = "mention the email!!")
     private String email;
 
     private String password;
 
+    @Size(max = 12,message = "phone must be less than 10 characters !!")
+    @NotBlank(message = "mention the phone!!")
     private String phone;
 
     private boolean forum;
@@ -44,19 +55,18 @@ public class Student implements UserDetails {
 
     private String currentBacklog;
 
+    @Size(max = 12,message = "phone must be less than 10 characters !!")
+    @NotBlank(message = "mention the parents contact!!")
+    private String pPhone;
+
     private String cetification;
 
     private String participation;
-
-    private double avgSGPA;
 
     private double avgAttendence;
 
     private String role;
 
-    // subjects
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "student")
-    private List<Subjects> subjects=new ArrayList<>();
 
     //attendence
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "student")
@@ -65,7 +75,8 @@ public class Student implements UserDetails {
 
     //sgpa
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "student")
-    private List<SGPA> sgpa=new ArrayList<>();
+    private List<SgpaFile> sgpa=new ArrayList<>();
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

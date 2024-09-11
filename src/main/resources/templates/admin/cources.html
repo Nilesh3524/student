@@ -1,109 +1,223 @@
 <!DOCTYPE html>
 <html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  th:replace="admin/base::layout(~{::section},~{::title},~{::style},~{::script})"
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        th:replace="admin/base::layout(~{::section},~{::title},~{::style},~{::script})"
 >
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Courses</title>
     <style></style>
-  </head>
-  <body>
-    <section>
-      <div class="container mt-2 flex-fill" style="width: 1250px">
+</head>
+<body>
+<section>
+    <div class="container mt-2 flex-fill" style="width: 1250px">
         <div class="container">
-          <h1 class="mb-4 text-center">Department Courses</h1>
-          <div class="table-container">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>3rd Semester</th>
-                  <th>4th Semester</th>
-                  <th>5th Semester</th>
-                  <th>6th Semester</th>
-                  <th>7th Semester</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Course1</td>
-                  <td>Course2</td>
-                  <td>Course3</td>
-                  <td>Course4</td>
-                  <td>Course5</td>
-                </tr>
-                <tr>
-                  <td>Course6</td>
-                  <td>Course7</td>
-                  <td>Course8</td>
-                  <td>Course9</td>
-                  <td>Course10</td>
-                </tr>
-                <tr>
-                  <td>Course11</td>
-                  <td>Course12</td>
-                  <td>Course13</td>
-                  <td>Course14</td>
-                  <td>Course15</td>
-                </tr>
-                <tr>
-                  <td>Course16</td>
-                  <td>Course17</td>
-                  <td>Course18</td>
-                  <td>Course19</td>
-                  <td>Course20</td>
-                </tr>
-                <tr>
-                  <td>Course21</td>
-                  <td>Course22</td>
-                  <td>Course23</td>
-                  <td>Course24</td>
-                  <td>Course25</td>
-                </tr>
-                <tr>
-                  <td>Course26</td>
-                  <td>Course27</td>
-                  <td>Course28</td>
-                  <td>Course29</td>
-                  <td>Course30</td>
-                </tr>
-                <tr>
-                  <td>Course31</td>
-                  <td>Course32</td>
-                  <td>Course33</td>
-                  <td>Course34</td>
-                  <td>Course35</td>
-                </tr>
-                <tr>
-                  <td>Course36</td>
-                  <td>Course37</td>
-                  <td>Course38</td>
-                  <td>Course39</td>
-                  <td>Course40</td>
-                </tr>
-                <tr>
-                  <td>Course41</td>
-                  <td>Course42</td>
-                  <td>Course43</td>
-                  <td>Course44</td>
-                  <td>Course45</td>
-                </tr>
-                <tr>
-                  <td>Course46</td>
-                  <td>Course47</td>
-                  <td>Course48</td>
-                  <td></td>
-                  <!-- Empty cells for alignment -->
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+            <h1 class="mb-4 text-center text-black">Department Courses</h1>
+            <div class="table-container">
+                <table class="table table-bordered" style="border: 3px solid black;">
+                    <thead>
+                    <tr>
+                        <th style="color: black; font-weight: bold; font-size: 22px; border-left: 3px solid black; border-right: 3px solid black;">
+                            3rd Semester
+                        </th>
+                        <th style="color: black; font-weight: bold; font-size: 22px; border-left: 3px solid black; border-right: 3px solid black;">
+                            4th Semester
+                        </th>
+                        <th style="color: black; font-weight: bold; font-size: 22px; border-left: 3px solid black; border-right: 3px solid black;">
+                            5th Semester
+                        </th>
+                        <th style="color: black; font-weight: bold; font-size: 22px; border-left: 3px solid black; border-right: 3px solid black;">
+                            6th Semester
+                        </th>
+                        <th style="color: black; font-weight: bold; font-size: 22px; border-left: 3px solid black; border-right: 3px solid black;">
+                            7th Semester
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Engineering Mathematics 3
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Engineering Mathematics 4
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Analog Communication
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Digital Communication
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Satellite Communication
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Electronic Devices & Circuits
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Electromagnetic Field
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Microprocessor and Microcontroller
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Control System Engineering
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Antenna Wave Propagation
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Digital Electronics
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Signal Processing
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            CMOS-VLSI
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Data Science
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Data Encryption and Decryption
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Network Theory
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Python Programming
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Digital Image Processing
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Software Workshop Lab
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Robotics
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            OOPS & DS
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Soft Skills-1
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Soft Skills-2
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Soft Skills-3
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Machine Learning
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            OOPS & DS Lab
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Signal Processing Lab
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Economics and Finance
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Digital System Design
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            MEMS
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Digital Electronics Lab
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Python Programming Lab
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Java Programming Lab
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Digital System Design
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            W.com
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Electronics Devices & Circuit Lab
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Essence of Indian Traditional Knowledge
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Analog Communication Lab
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Computer Communication Network
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Mega Project
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Practice School-1
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Open Elective
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Practice School-2
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Computer Communication Network Lab
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Course45
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;"></td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;"></td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            VLSI
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Open Elective
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Open Elective
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;"></td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;"></td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;">
+                            Open Elective
+                        </td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;"></td>
+                        <td style="color: green; font-weight: bold; border-left: 3px solid black; border-right: 3px solid black;"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-      </div>
-    </section>
-  <script></script>
-  </body>
+    </div>
+</section>
+<script></script>
+</body>
 </html>

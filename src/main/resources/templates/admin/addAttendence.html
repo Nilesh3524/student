@@ -11,8 +11,8 @@
     <style>
         .mycard {
             max-width: 1250px; /* Set max-width for the card */
-            height: 800px;
-            margin: 10px auto; /* Center the card horizontally and add top margin */
+            height: auto;
+            margin: auto; /* Center the card horizontally and add top margin */
             border: 2px solid #343a40; /* Dark border for the card */
         }
 
@@ -25,6 +25,7 @@
         }
 
         .mytable {
+            margin-top: 10px;
             width: 100%; /* Ensure table takes full width of the card */
             border: 1px solid #343a40; /* Dark border for the table */
         }
@@ -46,9 +47,20 @@
 </head>
 <body>
 <section>
-    <div class="container flex-fill mt-3" style="width: 1250px">
+    <div
+            id="alert"
+            th:if="${session.message}"
+            th:classappend="${session.message.type}"
+            class="alert my-2 mx-4"
+            style="height: 60px"
+            role="alert"
+    >
+        <p class="text-center" th:text="${session.message.content}"></p>
+        <th:block th:text="${@sessionHelper.removeMessage()}"></th:block>
+    </div>
+    <div class="container flex-fill " style="width: 1250px">
         <div class="container">
-            <div class="mycard card mx-3">
+            <div class="mycard card mt-3">
                 <div class="mycard-header card-header text-white text-center">
                     <h4 class="mb-0">Add Student Attendance</h4>
                 </div>
@@ -58,7 +70,16 @@
                             method="post"
                             th:action="@{/admin/process-add-attendence}"
                     >
-                        <input type="hidden" name="rollNo" th:value="${rollNo}"/>
+                        <div class="row">
+                            <div class="col-2">
+                                <p class="form-control"  style="background-color: #e2e2e2">Enter Student ID : </p>
+                            </div>
+                            <div class="col-2">
+                                <input class="form-control" type="text" name="rollNo" required/>
+
+                            </div>
+                        </div>
+
                         <table class="mytable table table-bordered">
                             <thead class="thead-dark">
                             <tr>
@@ -395,6 +416,17 @@
             presentDaysInput.addEventListener("input", calculateAttendance);
         }
     });
+
+
+    // Hide alert after 3 seconds
+    window.onload = function () {
+        const alertBox = document.getElementById('alert');
+        if (alertBox) {
+            setTimeout(function () {
+                alertBox.style.display = 'none';
+            }, 3000); // 3000ms = 3 seconds
+        }
+    };
 </script>
 </body>
 </html>

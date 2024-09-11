@@ -1,22 +1,32 @@
 package com.record.student.controller;
 
-import com.record.student.model.Attendence;
-import com.record.student.model.SGPA;
-import com.record.student.model.Student;
-import com.record.student.sevice.SGPAService;
+import com.record.student.helper.Message;
+import com.record.student.model.*;
+import com.record.student.sevice.FileService;
+import com.record.student.sevice.SgpaFileService;
 import com.record.student.sevice.StudentService;
-import com.record.student.sevice.SubjectsService;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -26,26 +36,35 @@ public class AdminController {
     private StudentService studentService;
 
     @Autowired
-    private SGPAService sgpaService;
+    private FileService fileService;
 
     @Autowired
-    private SubjectsService subjectsService;
+    private SgpaFileService sgpaFileService;
+
 
     private Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     //all students
     @ModelAttribute
-    public void allStudents(Model m){
+    public void allStudents(Model m, HttpSession session) {
 
         List<Student> allStudents = this.studentService.getAllStudents();
 
-        m.addAttribute("students",allStudents);
+        m.addAttribute("students", allStudents);
 
+
+    }
+
+    // Display all files on a page
+    @ModelAttribute
+    public void listAllFiles(Model model) throws IOException {
+        List<File> files = this.fileService.getAllFiles();
+        model.addAttribute("files", files);
     }
 
 
@@ -71,17 +90,31 @@ public class AdminController {
 
         m.addAttribute("title", "Add Student");
 
+        m.addAttribute("s", new Student());
+
+
         return "admin/addStudent";
     }
 
     // process add student
     @PostMapping("/process-add-student")
-    public String addStudent(@ModelAttribute("student") Student student) {
+    public String addStudent(@Valid @ModelAttribute("s") Student student, BindingResult result, HttpSession session, Model m) {
 
         System.out.println(student);
 
+        if (result.hasErrors()) {
+
+            m.addAttribute("s", student);
+
+            session.setAttribute("message", new Message("alert-danger", "Something went wrong !!"));
+
+            return "admin/addStudent";
+        }
+
         if (this.studentService.isStudentExits(student.getRollNo())
                 || this.studentService.isStudentExitsByEmail(student.getEmail())) {
+            m.addAttribute("s", student);
+            session.setAttribute("message", new Message("alert-danger", "Student Already Exists !!"));
             return "admin/addStudent";
         }
 
@@ -91,153 +124,142 @@ public class AdminController {
 
         this.studentService.addStudent(student);
 
-        return "redirect:dashboard";
+        session.setAttribute("message", new Message("alert-success", "Student Added successfully"));
+
+        return "redirect:all-students";
 
     }
 
-    // search for sgpa page
-    @GetMapping("/search-sgpa")
-    public String searchForSGPA() {
-
-        return "admin/search";
-    }
 
     // add sgpa page
     @GetMapping("/add-sgpa")
-    public String addSGPAForm(@RequestParam("rollNo") String rollNo, Model m) {
+    public String addSGPAForm() {
 
-        System.out.println(rollNo);
+        return "admin/addSGPA";
 
-        m.addAttribute("rollNo", rollNo);
-
-        if (this.studentService.isStudentExits(rollNo)) {
-
-            return "admin/addSGPA";
-
-        } else {
-            return "admin/search";
-        }
 
     }
 
-    // process add sgpa
+
+    //process add sgpa
     @PostMapping("/process-add-sgpa")
-    public String addSgpa(@ModelAttribute("sgpa") SGPA sgpa, @RequestParam("rollNo") String rollNo) {
+    public String processAddSgpa(@RequestParam("rollNo") String rollNo,
+                                 @RequestParam("sgpa1") MultipartFile sgpa1,
+                                 @RequestParam("sgpa2") MultipartFile sgpa2,
+                                 @RequestParam("sgpa3") MultipartFile sgpa3,
+                                 @RequestParam("sgpa4") MultipartFile sgpa4,
+                                 @RequestParam("sgpa5") MultipartFile sgpa5,
+                                 @RequestParam("sgpa6") MultipartFile sgpa6,
+                                 @RequestParam("sgpa7") MultipartFile sgpa7,
+                                 @RequestParam("sgpa8") MultipartFile sgpa8, HttpSession session) throws IOException {
 
-        System.out.println(sgpa);
-
-        System.out.println(rollNo);
 
         if (this.studentService.isStudentExits(rollNo)) {
 
             Student student = this.studentService.getStudentByRollNo(rollNo).get();
 
-            sgpa.setStudent(student);
+            if (student.getSgpa().isEmpty()) {
 
-            student.getSgpa().add(sgpa);
 
-            double avgSgpa = (sgpa.getSgpa1() + sgpa.getSgpa2() + sgpa.getSgpa3() + sgpa.getSgpa4() + sgpa.getSgpa5()
-                    + sgpa.getSgpa6() + sgpa.getSgpa7() + sgpa.getSgpa8()) / 8;
+                SgpaFile SGPA1 = new SgpaFile(sgpa1.getOriginalFilename(), sgpa1.getContentType(), sgpa1.getBytes(), student);
+                SgpaFile SGPA2 = new SgpaFile(sgpa2.getOriginalFilename(), sgpa2.getContentType(), sgpa2.getBytes(), student);
+                SgpaFile SGPA3 = new SgpaFile(sgpa3.getOriginalFilename(), sgpa3.getContentType(), sgpa3.getBytes(), student);
+                SgpaFile SGPA4 = new SgpaFile(sgpa4.getOriginalFilename(), sgpa4.getContentType(), sgpa4.getBytes(), student);
+                SgpaFile SGPA5 = new SgpaFile(sgpa5.getOriginalFilename(), sgpa5.getContentType(), sgpa5.getBytes(), student);
+                SgpaFile SGPA6 = new SgpaFile(sgpa6.getOriginalFilename(), sgpa6.getContentType(), sgpa6.getBytes(), student);
+                SgpaFile SGPA7 = new SgpaFile(sgpa7.getOriginalFilename(), sgpa7.getContentType(), sgpa7.getBytes(), student);
+                SgpaFile SGPA8 = new SgpaFile(sgpa8.getOriginalFilename(), sgpa8.getContentType(), sgpa8.getBytes(), student);
 
-            student.setAvgSGPA(avgSgpa);
+                student.getSgpa().addAll(List.of(SGPA1, SGPA2, SGPA3, SGPA4, SGPA5, SGPA6, SGPA7, SGPA8));
 
-            // SGPA savedSGPA = this.sgpaService.addSGPA(sgpa);
+                this.sgpaFileService.storeSgpaFile(SGPA1);
+                this.sgpaFileService.storeSgpaFile(SGPA2);
+                this.sgpaFileService.storeSgpaFile(SGPA3);
+                this.sgpaFileService.storeSgpaFile(SGPA4);
+                this.sgpaFileService.storeSgpaFile(SGPA5);
+                this.sgpaFileService.storeSgpaFile(SGPA6);
+                this.sgpaFileService.storeSgpaFile(SGPA7);
+                this.sgpaFileService.storeSgpaFile(SGPA8);
 
-            this.studentService.addStudent(student);
+                session.setAttribute("message", new Message("alert-success", "SGPA Added successfully for student " + student.getRollNo()));
 
-            // logger.info(savedSGPA.toString());
+                return "redirect:dashboard";
 
-            // logger.info(updatedStudent.toString());
+            } else {
 
-            return "redirect:dashboard";
+                session.setAttribute("message", new Message("alert-warning", "Student " + rollNo + " record Already have Sgpa record !! you can remove record to add again."));
+
+                return "admin/addSGPA";
+
+            }
+
 
         } else {
-            return "admin/search";
+
+            session.setAttribute("message", new Message("alert-danger", "Student " + rollNo + " record doesn't exist"));
+
+            return "admin/addSGPA";
+
         }
 
     }
 
-    // search attendence page
-    @GetMapping("/search-attendence")
-    public String searchForAttendence() {
-
-        return "admin/search_attendence";
-    }
 
     // add attendence page
     @GetMapping("/add-attendence")
-    public String addAttendenceForm(@RequestParam("rollNo") String rollNo, Model m) {
+    public String addAttendenceForm() {
 
-        System.out.println(rollNo);
-
-        if (this.studentService.isStudentExits(rollNo)) {
-
-            m.addAttribute("rollNo", rollNo);
-            return "admin/addAttendence";
-
-        } else {
-
-            return "admin/search_attendence";
-        }
+        return "admin/addAttendence";
 
     }
 
     // process add attendence
     @PostMapping("/process-add-attendence")
     public String processAddAttendence(@ModelAttribute("attendence") Attendence attendence,
-                                       @RequestParam("rollNo") String rollNo) {
+                                       @RequestParam("rollNo") String rollNo, HttpSession session, Model m) {
 
-        // logger.info(rollNo);
-        // logger.info(attendence.toString());
 
         if (this.studentService.isStudentExits(rollNo)) {
 
             Student student = this.studentService.getStudentByRollNo(rollNo).get();
 
-            attendence.setStudent(student);
+            if (student.getAttendence().isEmpty()) {
 
-            student.getAttendence().add(attendence);
+                attendence.setStudent(student);
 
-            double avgAttendence = (attendence.getA1() + attendence.getA2() + attendence.getA3() + attendence.getA4()
-                    + attendence.getA5() + attendence.getA6() + attendence.getA7() + attendence.getA8()) / 8;
+                student.getAttendence().add(attendence);
 
-            student.setAvgAttendence(avgAttendence);
+                double avgAttendence = (attendence.getA1() + attendence.getA2() + attendence.getA3() + attendence.getA4()
+                        + attendence.getA5() + attendence.getA6() + attendence.getA7() + attendence.getA8()) / 8;
 
-            this.studentService.addStudent(student);
+                student.setAvgAttendence(avgAttendence);
 
-            return "redirect:dashboard";
+                this.studentService.addStudent(student);
+
+                session.setAttribute("message", new Message("alert-success", "Attendence Added successfully for student: " + rollNo));
+
+
+                return "redirect:all-students";
+
+
+            }else {
+
+                session.setAttribute("message", new Message("alert-warning", "Student " + rollNo + " record Already have Attendence record !! you can update it."));
+
+                return "admin/addAttendence";
+
+            }
+
 
         } else {
+
+            session.setAttribute("message", new Message("alert-danger", "Student " + rollNo + " record doesn't exists !!"));
+
             return "admin/addAttendence";
         }
 
     }
 
-    // search for subject form
-    @GetMapping("/search-subject")
-    public String searchSubjectForm() {
-
-        return "admin/search_subjects";
-    }
-
-    // add subject page
-    @GetMapping("/add-subject")
-    public String addSubjectForm(@RequestParam("rollNo") String rollNo, Model m) {
-
-        System.out.println(rollNo);
-
-        if (this.studentService.isStudentExits(rollNo)) {
-
-            m.addAttribute("rollNo", rollNo);
-
-            return "admin/addSubject";
-
-        } else {
-
-            return "admin/search_subjects";
-        }
-
-    }
 
     // cources page
     @GetMapping("/cources")
@@ -247,21 +269,21 @@ public class AdminController {
 
     //all students page
     @GetMapping("/all-students")
-    public String allStudents(){
+    public String allStudents() {
         return "admin/allStudents";
     }
 
 
     //Backlog students page
     @GetMapping("/backlog-students")
-    public String backlogStudents(){
+    public String backlogStudents() {
         return "admin/backlogStudents";
     }
 
 
     //delete student
     @GetMapping("/student/delete/{rollNo}")
-    public String deleteStudent(@PathVariable String rollNo) {
+    public String deleteStudent(@PathVariable String rollNo, HttpSession session) {
 
 //        System.out.println(rollNo);
 
@@ -269,9 +291,14 @@ public class AdminController {
 
             this.studentService.deleteStudent(rollNo);
 
+            session.setAttribute("message", new Message("alert-warning", "Student record deleted Successfully"));
+
+
             return "redirect:/admin/all-students";
 
-        }else {
+        } else {
+
+            session.setAttribute("message", new Message("alert-danger", "Student " + rollNo + " record doesn't exists !!"));
 
             return "redirect:dashboard";
 
@@ -279,10 +306,84 @@ public class AdminController {
 
     }
 
-//    update student
-    @GetMapping("/student/update/{rollNo}")
-    public String updateStudent(@PathVariable String rollNo, Model m){
 
-        return "admin/updateStudent";
+    @PostMapping("/student/update")
+    @ResponseBody // This ensures the method returns JSON, not a view.
+    public Map<String, Object> updateStudent(@ModelAttribute Student student) {
+
+        System.out.println(student);
+
+        // Fetch the existing student by roll number
+        Optional<Student> optionalStudent = this.studentService.getStudentByRollNo(student.getRollNo());
+
+
+        // Prepare a response map
+        Map<String, Object> response = new HashMap<>();
+
+        if (optionalStudent.isPresent()) {
+
+            Student oldStudent = optionalStudent.get();
+
+            // Update the student details
+            oldStudent.setName(student.getName());
+            oldStudent.setEmail(student.getEmail());
+            oldStudent.setPhone(student.getPhone());
+            oldStudent.setCurrentBacklog(student.getCurrentBacklog());
+            oldStudent.setCetification(student.getCetification());
+
+            // Save the updated student back to the database
+            this.studentService.addStudent(oldStudent);
+
+            // Return success response
+            response.put("success", true);
+            response.put("message", "Student updated successfully.");
+        } else {
+            // If student is not found, return failure response
+            response.put("success", false);
+            response.put("message", "Student not found.");
+        }
+
+        return response; // Returning JSON response
     }
+
+    //upload result
+    @GetMapping("/upload-result")
+    public String uploadResultPage() {
+
+
+        return "admin/uploadResult";
+    }
+
+    //process upload result form
+    @PostMapping("/process-upload-result")
+    public String uploadResult(@RequestParam("name") String name, @RequestParam("image") MultipartFile file) {
+
+//        System.out.println(name);
+//        System.out.println(file.getOriginalFilename());
+//        System.out.println(file.getSize());
+
+        try {
+
+
+            this.fileService.storeFile(file, name);
+
+            return "redirect:dashboard";
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @GetMapping("/files/download/{fileId}")
+    public ResponseEntity<byte[]> downloadFile(@PathVariable int fileId) throws IOException {
+        File file = this.fileService.getFile(fileId).get();
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(file.getType()))  // Set the correct content type
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+                .body(file.getData());
+    }
+
+
 }
