@@ -2,6 +2,7 @@ package com.record.student.controller;
 
 import com.record.student.helper.Message;
 import com.record.student.model.*;
+import com.record.student.sevice.CertificateService;
 import com.record.student.sevice.FileService;
 import com.record.student.sevice.SgpaFileService;
 import com.record.student.sevice.StudentService;
@@ -23,10 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin")
@@ -41,24 +39,27 @@ public class AdminController {
     @Autowired
     private SgpaFileService sgpaFileService;
 
+    @Autowired
+    private CertificateService certificateService;
 
-    private Logger logger = LoggerFactory.getLogger(AdminController.class);
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    //all students
     @ModelAttribute
-    public void allStudents(Model m, HttpSession session) {
+    public void getAllStudents(Model m){
 
-        List<Student> allStudents = this.studentService.getAllStudents();
+        List<Student> students = this.studentService.getAllStudents();
 
-        m.addAttribute("students", allStudents);
-
+        m.addAttribute("students",students);
 
     }
+
+
+
 
     // Display all files on a page
     @ModelAttribute
@@ -98,9 +99,9 @@ public class AdminController {
 
     // process add student
     @PostMapping("/process-add-student")
-    public String addStudent(@Valid @ModelAttribute("s") Student student, BindingResult result, HttpSession session, Model m) {
+    public String addStudent(@Valid @ModelAttribute("s") Student student, BindingResult result, @RequestParam("certificates") MultipartFile certificates, HttpSession session, Model m) throws IOException {
 
-        System.out.println(student);
+//        System.out.println(student);
 
         if (result.hasErrors()) {
 
@@ -122,7 +123,13 @@ public class AdminController {
 
         student.setRole("STUDENT");
 
+
+        Certificate certificate = new Certificate(certificates.getContentType(), certificates.getOriginalFilename(), certificates.getBytes(), student);
+
+        student.setCertificate(certificate);
+
         this.studentService.addStudent(student);
+
 
         session.setAttribute("message", new Message("alert-success", "Student Added successfully"));
 
@@ -183,7 +190,7 @@ public class AdminController {
 
                 session.setAttribute("message", new Message("alert-success", "SGPA Added successfully for student " + student.getRollNo()));
 
-                return "redirect:dashboard";
+                return "redirect:/admin/all-students";
 
             } else {
 
@@ -223,16 +230,16 @@ public class AdminController {
 
             Student student = this.studentService.getStudentByRollNo(rollNo).get();
 
-            if (student.getAttendence().isEmpty()) {
+            if (student.getAttendence() == null) {
 
                 attendence.setStudent(student);
 
-                student.getAttendence().add(attendence);
+                student.setAttendence(attendence);
 
                 double avgAttendence = (attendence.getA1() + attendence.getA2() + attendence.getA3() + attendence.getA4()
                         + attendence.getA5() + attendence.getA6() + attendence.getA7() + attendence.getA8()) / 8;
 
-                student.setAvgAttendence(avgAttendence);
+                student.setAvgAttendence(Math.round(avgAttendence));
 
                 this.studentService.addStudent(student);
 
@@ -242,7 +249,7 @@ public class AdminController {
                 return "redirect:all-students";
 
 
-            }else {
+            } else {
 
                 session.setAttribute("message", new Message("alert-warning", "Student " + rollNo + " record Already have Attendence record !! you can update it."));
 
@@ -306,12 +313,40 @@ public class AdminController {
 
     }
 
+    //delete sgpa
+    @GetMapping("/student/record/delete/{rollNo}")
+    public String deleteStudentRecord(@PathVariable String rollNo, HttpSession session) {
+
+        if (this.studentService.isStudentExits(rollNo)) {
+
+
+            List<SgpaFile> sgpa = this.sgpaFileService.getSgpaFileByRollNo(rollNo);
+
+            for (SgpaFile sgpaFile : sgpa) {
+                this.sgpaFileService.deleteSgpaFile(sgpaFile);
+            }
+
+            session.setAttribute("message", new Message("alert-warning", "Record deleted Successfully"));
+
+            return "redirect:/admin/student/details/"+rollNo;
+
+        }else {
+
+            session.setAttribute("message", new Message("alert-danger", "Student " + rollNo + " record doesn't exists !!"));
+
+            return "redirect:dashboard";
+
+        }
+
+
+    }
+
+    //student update
 
     @PostMapping("/student/update")
     @ResponseBody // This ensures the method returns JSON, not a view.
     public Map<String, Object> updateStudent(@ModelAttribute Student student) {
 
-        System.out.println(student);
 
         // Fetch the existing student by roll number
         Optional<Student> optionalStudent = this.studentService.getStudentByRollNo(student.getRollNo());
@@ -325,11 +360,9 @@ public class AdminController {
             Student oldStudent = optionalStudent.get();
 
             // Update the student details
-            oldStudent.setName(student.getName());
-            oldStudent.setEmail(student.getEmail());
-            oldStudent.setPhone(student.getPhone());
+            oldStudent.setBacklog(student.isBacklog());
+            oldStudent.setBackSub(student.getBackSub());
             oldStudent.setCurrentBacklog(student.getCurrentBacklog());
-            oldStudent.setCetification(student.getCetification());
 
             // Save the updated student back to the database
             this.studentService.addStudent(oldStudent);
@@ -337,6 +370,55 @@ public class AdminController {
             // Return success response
             response.put("success", true);
             response.put("message", "Student updated successfully.");
+
+        } else {
+            // If student is not found, return failure response
+            response.put("success", false);
+            response.put("message", "Student not found.");
+        }
+
+        return response; // Returning JSON response
+    }
+
+
+    // update attendence
+
+    @PostMapping("/student/update/attendence")
+    @ResponseBody // This ensures the method returns JSON, not a view.
+    public Map<String, Object> updateAttendence(@ModelAttribute Attendence attendence, @RequestParam("sRollNo") String rollNo) {
+
+
+        // Fetch the existing student by roll number
+        Optional<Student> optionalStudent = this.studentService.getStudentByRollNo(rollNo);
+
+
+        // Prepare a response map
+        Map<String, Object> response = new HashMap<>();
+
+        if (optionalStudent.isPresent()) {
+
+            Student oldStudent = optionalStudent.get();
+
+            // Update the attendence details
+            oldStudent.setAttendence(attendence);
+
+            attendence.setStudent(oldStudent);
+
+            //calculate avg
+            double avgAttendence = (attendence.getA1() + attendence.getA2() + attendence.getA3() + attendence.getA4()
+                    + attendence.getA5() + attendence.getA6() + attendence.getA7() + attendence.getA8()) / 8;
+
+            oldStudent.setAvgAttendence(Math.round(avgAttendence));
+
+
+            // Save the updated student back to the database
+            this.studentService.addStudent(oldStudent);
+
+            // Return success response
+            response.put("success", true);
+
+            response.put("message", "Attendence updated successfully.");
+
         } else {
             // If student is not found, return failure response
             response.put("success", false);
@@ -356,16 +438,13 @@ public class AdminController {
 
     //process upload result form
     @PostMapping("/process-upload-result")
-    public String uploadResult(@RequestParam("name") String name, @RequestParam("image") MultipartFile file) {
-
-//        System.out.println(name);
-//        System.out.println(file.getOriginalFilename());
-//        System.out.println(file.getSize());
+    public String uploadResult(@RequestParam("name") String name, @RequestParam("image") MultipartFile file, HttpSession session) {
 
         try {
 
-
             this.fileService.storeFile(file, name);
+
+            session.setAttribute("message", new Message("alert-success", "Result uploaded Successfully"));
 
             return "redirect:dashboard";
 
@@ -375,6 +454,36 @@ public class AdminController {
 
     }
 
+    //students details page
+    @GetMapping("/student/details/{rollNo}")
+    public String studentDetails(@PathVariable String rollNo, HttpSession session, Model m) {
+
+        if (this.studentService.isStudentExits(rollNo)) {
+
+            Student student = this.studentService.getStudentByRollNo(rollNo).get();
+
+            List<SgpaFile> sgpa = this.sgpaFileService.getSgpaFileByRollNo(rollNo);
+
+            System.out.println(sgpa);
+
+
+            m.addAttribute("s", student);
+
+            m.addAttribute("sgpa", sgpa);
+
+            return "admin/studentDetails";
+
+        }else {
+
+            session.setAttribute("message", new Message("alert-danger", "Student record doesn't exists !!"));
+
+            return "redirect:all-students";
+        }
+
+    }
+
+
+    //download result
     @GetMapping("/files/download/{fileId}")
     public ResponseEntity<byte[]> downloadFile(@PathVariable int fileId) throws IOException {
         File file = this.fileService.getFile(fileId).get();
@@ -384,6 +493,33 @@ public class AdminController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
                 .body(file.getData());
     }
+
+
+    //download certificate
+    @GetMapping("/certificate/download/{rollNo}")
+    public ResponseEntity<byte[]> downloadCertificate(@PathVariable String rollNo) throws IOException {
+
+        Certificate certificate = this.certificateService.getCertificateByRollNo(rollNo).get();
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(certificate.getType()))  // Set the correct content type
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + certificate.getName() + "\"")
+                .body(certificate.getData());
+    }
+
+
+    //download sgpa
+    @GetMapping("/sgpa/download/{rollNo}/{id}")
+    public ResponseEntity<byte[]> downloadSgpa(@PathVariable("rollNo") String rollNo,@PathVariable("id") int id) throws IOException {
+
+        SgpaFile sgpa = this.sgpaFileService.getSgpaFileByRollNoAndId(rollNo, id);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(sgpa.getType()))  // Set the correct content type
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + sgpa.getName() + "\"")
+                .body(sgpa.getData());
+    }
+
 
 
 }

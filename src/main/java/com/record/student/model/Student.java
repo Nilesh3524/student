@@ -1,5 +1,6 @@
 package com.record.student.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -19,7 +20,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 public class Student implements UserDetails {
 
     @Id
@@ -57,11 +57,18 @@ public class Student implements UserDetails {
 
     @Size(max = 12,message = "phone must be less than 10 characters !!")
     @NotBlank(message = "mention the parents contact!!")
-    private String pPhone;
+    private String parents;
 
-    private String cetification;
+    @NotBlank(message = "mention mother name !!")
+    private String mother;
+
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER,orphanRemoval = true,mappedBy = "student")
+    private Certificate certificate;
 
     private String participation;
+
+    private String year;
 
     private double avgAttendence;
 
@@ -69,8 +76,8 @@ public class Student implements UserDetails {
 
 
     //attendence
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "student")
-    private List<Attendence> attendence=new ArrayList<>();
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER,orphanRemoval = true,mappedBy = "student")
+    private Attendence attendence;
 
 
     //sgpa
@@ -87,4 +94,6 @@ public class Student implements UserDetails {
     public String getUsername() {
         return getRollNo();
     }
+
+
 }

@@ -54,4 +54,9 @@ public class StudentService {
         return this.studentRepo.findAll();
     }
 
+    public List<Student> getStudentsByYear(String year) {
+        return studentRepo.findByYear(year);
+    }
+
+
 }

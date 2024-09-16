@@ -32,6 +32,9 @@
 
                     <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; font-family: 'Comic Sans MS'">Sign into your account</h5>
 
+                    <p th:if="${param.error}" class="text-danger">Invalid Username or Password</p>
+                    <p th:if="${param.logout}" class="text-success">You have been logout</p>
+
                     <div data-mdb-input-init class="form-outline mb-4">
                       <input type="text" id="rollNo" name="username" class="form-control form-control-lg" />
                       <label class="form-label" for="RollNo">RollNo</label></div>

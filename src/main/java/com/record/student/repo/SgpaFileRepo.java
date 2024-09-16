@@ -13,4 +13,7 @@ public interface SgpaFileRepo extends JpaRepository<SgpaFile, Integer> {
     @Query("from SgpaFile s where s.student.rollNo = :rollNo")
     List<SgpaFile> findByStudentRollNo(@Param("rollNo") String rollNo);
 
+    @Query("from SgpaFile s where s.student.rollNo = :rollNo and s.id = :id")
+    SgpaFile findByStudentRollNoAndId(@Param("rollNo") String rollNo, @Param("id") Integer id);
+
 }

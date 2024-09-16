@@ -9,9 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Add Student</title>
     <style>
-        #backlogsub, #backlogsub2 {
-            display: none;
-        }
+
+
+
     </style>
 </head>
 <body>
@@ -34,7 +34,28 @@
             </div>
             <div class="card-body" style=" background-color: #e2e2e2">
                 <form method="post" th:action="@{/admin/process-add-student}" th:object="${s}"
+                      enctype="multipart/form-data"
                       id="studentForm">
+                    <div class="row my-2">
+                        <div class="col-md-6">
+                            <label for="year">Year</label>
+                            <select
+                                    name="year"
+                                    class="form-control"
+                                    id="year"
+                                    required
+                            >
+                                <option value="">Select year</option>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6"></div>
+                    </div>
+
                     <!-- Row 1: Student ID and Name -->
                     <div class="row my-2">
                         <div class="form-group col-md-6">
@@ -143,9 +164,6 @@
                             >
                                 <option value="" th:selected="${s.branch == null}">Select Branch</option>
                                 <option value="ETC" th:selected="${s.branch == 'ETC'}">ETC</option>
-                                <option value="CSE" th:selected="${s.branch == 'CSE'}">CSE</option>
-                                <option value="EE" th:selected="${s.branch == 'EE'}">EE</option>
-                                <option value="ME" th:selected="${s.branch == 'ME'}">ME</option>
                             </select>
                         </div>
                     </div>
@@ -162,7 +180,7 @@
                                     required
                             >
                                 <option value="" th:selected="${s.backlog == null}">Select</option>
-                                <option value="yes" th:selected="${s.backlog == true}">Yes</option>
+                                <option value="yes" th:selected="${s.backlog== true}">Yes</option>
                                 <option value="no">No</option>
                             </select>
                         </div>
@@ -185,15 +203,15 @@
                         <div class="form-group col-md-6">
                             <label for="backlogsub">Backlog Subjects if any</label>
                             <textarea th:classappend="${#fields.hasErrors('backSub')?'is-invalid':''}"
-                                      th:text="${s.backSub}" class="form-control" name="backSub" id="backlogsub"
-                                      rows="3" disabled></textarea>
+                                      th:text="${s.backSub}" class="form-control d-none" name="backSub" id="backlogsub"
+                                      rows="3" ></textarea>
                         </div>
 
                         <div class="form-group col-md-6">
                             <label for="backlogsub">Current Backlog Subjects</label>
                             <textarea th:classappend="${#fields.hasErrors('currentBacklog')?'is-invalid':''}"
-                                      th:text="${s.currentBacklog}" class="form-control" name="currentBacklog"
-                                      id="backlogsub2" rows="3"></textarea>
+                                      th:text="${s.currentBacklog}" class="form-control d-none" name="currentBacklog"
+                                      id="backlogsub2" rows="3" ></textarea>
                         </div>
 
                     </div>
@@ -203,56 +221,66 @@
                         <div class="col-md-6">
                             <label for="certificate">Certificate</label>
                             <input
-                                    type="text"
+                                    type="file"
                                     class="form-control"
                                     id="certificate"
-                                    placeholder="Enter Certificate Info"
-                                    required
-                                    name="cetification"
-                                    th:field="*{cetification}"
-                                    th:classappend="${#fields.hasErrors('cetification')?'is-invalid':''}"
+                                    name="certificates"
                             />
-                            <div
-                                    class="invalid-feedback text-danger"
-                                    th:errors="*{cetification}"
-                            ></div>
                         </div>
                         <div class="col-md-6">
-                            <label for="pPhone">Parents Contact</label>
+                            <label for="parents">Parents Contact</label>
                             <input
                                     type="text"
                                     class="form-control"
-                                    id="pPhone"
+                                    id="parents"
                                     placeholder="Enter here "
                                     required
-                                    name="pPhone"
-                                    th:field="*{pPhone}"
-                                    th:classappend="${#fields.hasErrors('pPhone')?'is-invalid':''}"
+                                    name="parents"
+                                    th:field="*{parents}"
+                                    th:classappend="${#fields.hasErrors('parents')?'is-invalid':''}"
                             />
                             <div
                                     class="invalid-feedback text-danger"
-                                    th:errors="*{pPhone}"
+                                    th:errors="*{parents}"
                             ></div>
                         </div>
                     </div>
 
                     <!-- Row 5: participation Text Input -->
-                    <div class="form-group my-3">
-                        <label for="participation">Participation</label>
-                        <input
-                                type="text"
-                                class="form-control"
-                                id="participation"
-                                placeholder="Enter participation Info"
-                                required
-                                name="participation"
-                                th:field="*{participation}"
-                                th:classappend="${#fields.hasErrors('participation')?'is-invalid':''}"
-                        />
-                        <div
-                                class="invalid-feedback text-danger"
-                                th:errors="*{participation}"
-                        ></div>
+                    <div class="row my-3">
+                        <div class="col-md-6">
+                            <label for="participation">Participation</label>
+                            <input
+                                    type="text"
+                                    class="form-control"
+                                    id="participation"
+                                    placeholder="Enter participation Info"
+                                    name="participation"
+                                    th:field="*{participation}"
+                                    th:classappend="${#fields.hasErrors('participation')?'is-invalid':''}"
+                            />
+                            <div
+                                    class="invalid-feedback text-danger"
+                                    th:errors="*{participation}"
+                            ></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="mother">Mother Name</label>
+                            <input
+                                    type="text"
+                                    class="form-control"
+                                    id="mother"
+                                    placeholder="Enter mother name"
+                                    required
+                                    name="mother"
+                                    th:field="*{mother}"
+                                    th:classappend="${#fields.hasErrors('mother')?'is-invalid':''}"
+                            />
+                            <div
+                                    class="invalid-feedback text-danger"
+                                    th:errors="*{mother}"
+                            ></div>
+                        </div>
                     </div>
 
                     <!-- Submit Button -->
@@ -275,19 +303,25 @@
         const backlogsub = document.getElementById('backlogsub');
         const backlogsub2 = document.getElementById('backlogsub2');
 
-        if (backlog == 'yes') {
-            backlogsub.style.display = 'inline';
-            backlogsub.disabled = false;
+        // Debugging: Log the current value of backlog select
+        console.log('Backlog selected:', backlog);
 
-            backlogsub2.style.display = 'inline';
-            backlogsub2.disabled = false;
+        if (backlog === 'yes') {
 
-        } else {
-            backlogsub.style.display = 'none';
-            backlogsub.disabled = true;
+            backlogsub.classList.remove('d-none');
+            backlogsub.classList.add('show');
 
-            backlogsub2.style.display = 'none';
-            backlogsub2.disabled = true;
+            backlogsub2.classList.remove('d-none');
+            backlogsub2.classList.add('show');
+
+        } else{
+
+            backlogsub.classList.remove('show');
+            backlogsub.classList.add('d-none');
+
+            backlogsub2.classList.remove('show');
+            backlogsub2.classList.add('d-none');
+
         }
 
     }
@@ -295,11 +329,17 @@
     // Hide alert after 3 seconds
     window.onload = function () {
         const alertBox = document.getElementById('alert');
+        const backlogSelect = document.getElementById('backlog');
+
+
         if (alertBox) {
             setTimeout(function () {
                 alertBox.style.display = 'none';
             }, 3000); // 3000ms = 3 seconds
         }
+
+
+        // Call once on page load to set initial state
         toggleBacklogSub();
     };
 

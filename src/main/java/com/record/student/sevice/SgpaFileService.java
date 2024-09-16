@@ -24,4 +24,12 @@ public class SgpaFileService {
         return this.sgpaFileRepo.findByStudentRollNo(rollNo);
     }
 
+    public SgpaFile getSgpaFileByRollNoAndId(String rollNo, int id){
+        return this.sgpaFileRepo.findByStudentRollNoAndId(rollNo, id);
+    }
+
+    public void deleteSgpaFile(SgpaFile sgpaFile) {
+        this.sgpaFileRepo.delete(sgpaFile);
+    }
+
 }

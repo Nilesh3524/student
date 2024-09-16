@@ -1,10 +1,6 @@
 package com.record.student.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,16 +21,39 @@ public class Attendence {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    private String pday1;
+    private String tday1;
     private double a1;
+
+    private String pday2;
+    private String tday2;
     private double a2;
+
+    private String pday3;
+    private String tday3;
     private double a3;
+
+    private String pday4;
+    private String tday4;
     private double a4;
+
+    private String pday5;
+    private String tday5;
     private double a5;
+
+    private String pday6;
+    private String tday6;
     private double a6;
+
+    private String pday7;
+    private String tday7;
     private double a7;
+
+    private String pday8;
+    private String tday8;
     private double a8;
 
-    @ManyToOne
+    @OneToOne
     private Student student;
 
 }
