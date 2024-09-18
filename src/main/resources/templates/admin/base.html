@@ -18,26 +18,26 @@
             padding: 0;
         }
 
-        /* Main content container */
-        .content {
-            min-height: 100%; /* Ensure it stretches at least to fill the viewport */
-            padding: 20px;
+
+        .sidebar {
+            margin-top: 5px;
+            background-color: #3939ff;
         }
 
-
-        .acc {
-            color: black;
+        .sidebar a {
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            letter-spacing: 1px;
+            transition: background-color 0.3s;
+            font-family: "Century Schoolbook",serif;
         }
 
-        #sidebar {
-            height: 130vh;
-            margin-top: 3px;
-            background-color: skyblue;
-        }
-
-        div nav ul li:hover {
-            cursor: pointer;
-            background-color: #0b3d63;
+        .sidebar a:hover {
+            color: yellow;
+            text-shadow: 3px 3px 4px midnightblue;
         }
 
         .card2 div h5 {
@@ -48,6 +48,15 @@
         .card2 div p {
             font-size: 50px;
             color: white;
+        }
+
+        .branch{
+            color: thistle;
+            letter-spacing: 1px;
+            font-family: "Times New Roman",serif;
+            font-style: oblique;
+            font-weight: bolder;
+            text-shadow: 1px 1px 1px cyan;
         }
 
 
@@ -93,7 +102,7 @@
 
 <body>
 <!-- navbar start -->
-<nav class="navbar navbar-expand-lg" style="background-color: #3939ff; height: 60px">
+<nav class="navbar navbar-expand-lg" style="background-color: #3939ff;height: 69px">
     <div class="container-fluid">
         <a
                 th:if="${loggedInUser}"
@@ -103,8 +112,7 @@
             <img th:src="@{/img/sb.jpg}" style="width: 30px" alt=""/>
             <div class="d-none d-lg-inline text-white"
             >S.B. Jain Institute of Technology and Management Research
-            </div
-            >
+            </div>
             <span class="d-inline d-lg-none">S.B. Jain Institute</span>
         </a>
         <a th:unless="${loggedInUser}" class="navbar-brand" th:href="@{/}" style="text-decoration: none">
@@ -134,35 +142,46 @@
                 <li th:unless="${loggedInUser}" class="nav-item">
                     <a
                             th:href="@{/}"
-                            class="btn btn-success nav-link text-white"
-                    >Home</a
+                            class="nav-link text-white"
+                    >
+                        <button class="btn btn-success">
+                            Home
+                        </button>
+                    </a
                     >
                 </li>
                 <li th:unless="${loggedInUser}" class="nav-item">
                     <a
                             th:href="@{/admin/login}"
-                            class="btn btn-primary text-white nav-link"
-                    >Admin Login</a
+                            class="text-white nav-link"
                     >
-                </li>
-                <li th:unless="${loggedInUser}" class="nav-item">
-                    <a href="" class="btn btn-success text-white nav-link"
-                    >Parents Login</a
+                        <button class="btn btn-warning">
+                            Admin login
+                        </button>
+                    </a
                     >
                 </li>
                 <li th:unless="${loggedInUser}" class="nav-item">
                     <a
                             th:href="@{/student/login}"
-                            class="btn btn-info text-white nav-link"
-                    >Student Login</a
+                            class=" text-white nav-link"
+                    >
+                        <button class="btn btn-secondary">
+                            Student Login
+                        </button>
+                    </a
                     >
                 </li>
 
                 <li th:if="${loggedInUser}" class="nav-item">
                     <a
                             th:href="@{/admin/logout}"
-                            class="btn btn-danger text-white nav-link"
-                    >Logout</a
+                            class=" text-white nav-link"
+                    >
+                        <button class="btn btn-danger">
+                            Logout
+                        </button>
+                    </a
                     >
                 </li>
             </ul>
@@ -173,7 +192,7 @@
 
 <div class="d-flex">
     <!-- Sidebar -->
-    <nav id="sidebar" class="border-end" style="width: 300px" th:if="${loggedInUser}">
+    <nav id="sidebar" class="sidebar border-end" style="width: 300px" th:if="${loggedInUser}">
         <button
                 class="btn btn-secondary d-lg-none mb-3"
                 type="button"
@@ -192,44 +211,44 @@
                         style="width: 100px; border-radius: 100px"
                 />
             </div>
-            <h4 class="mb-4 mt-2 text-center" style="color: black">
+            <h4 class="mb-4 mt-2 text-center branch">
                 Electronics and Telecommunication
             </h4>
             <ul class="nav flex-column">
                 <li class="nav-item mt-1">
-                    <a class="acc nav-link" th:href="@{/admin/dashboard}"><i class="fa-solid fa-house"></i>&nbsp;
+                    <a class=" nav-link"  th:href="@{/admin/dashboard}"><i class="fa-solid fa-house"></i>&nbsp;
                         Home</a>
                 </li>
                 <li class="nav-item my-1">
-                    <a class="acc nav-link" th:href="@{/admin/all-students}"><i class="fa-solid fa-user"></i>&nbsp; All
+                    <a class=" nav-link" th:href="@{/admin/all-students}"><i class="fa-solid fa-user"></i>&nbsp; All
                         Students</a>
                 </li>
                 <li class="nav-item my-1">
-                    <a class="acc nav-link" th:href="@{/admin/add-student}"><i class="fa-solid fa-plus"></i>&nbsp; Add
+                    <a class=" nav-link" th:href="@{/admin/add-student}"><i class="fa-solid fa-plus"></i>&nbsp; Add
                         Student</a>
                 </li>
                 <li class="nav-item my-1">
-                    <a class="acc nav-link" th:href="@{/admin/add-attendence}"><i
+                    <a class=" nav-link" th:href="@{/admin/add-attendence}"><i
                             class="fa-solid fa-address-card"></i>&nbsp; Add Attendance</a>
                 </li>
                 <li class="nav-item my-1">
-                    <a class="acc nav-link" th:href="@{/admin/add-sgpa}"><i
+                    <a class=" nav-link" th:href="@{/admin/add-sgpa}"><i
                             class="fa-solid fa-square-poll-horizontal"></i>&nbsp; Add SGPA</a>
                 </li>
                 <li class="nav-item my-1">
-                    <a class="acc nav-link" th:href="@{/admin/cources}"><i class="fa-solid fa-book-open-reader"></i>&nbsp;
+                    <a class=" nav-link" th:href="@{/admin/cources}"><i class="fa-solid fa-book-open-reader"></i>&nbsp;
                         Courses</a>
                 </li>
                 <li class="nav-item my-1">
-                    <a class="acc nav-link" th:href="@{/admin/backlog-students}"><i class="fa-solid fa-clover"></i>&nbsp;
+                    <a class=" nav-link" th:href="@{/admin/backlog-students}"><i class="fa-solid fa-clover"></i>&nbsp;
                         Backlog Students</a>
                 </li>
                 <li class="nav-item my-1">
-                    <a class="acc nav-link" th:href="@{/admin/upload-result}"><i class="fa-solid fa-chart-simple"></i>&nbsp;
+                    <a class=" nav-link" th:href="@{/admin/upload-result}"><i class="fa-solid fa-chart-simple"></i>&nbsp;
                         Upload Result</a>
                 </li>
                 <li class="nav-item my-1">
-                    <a class="acc nav-link" th:href="@{/admin/logout}"><i class="fa-solid fa-right-to-bracket"></i>&nbsp;
+                    <a class=" nav-link" th:href="@{/admin/logout}"><i class="fa-solid fa-right-to-bracket"></i>&nbsp;
                         Logout</a>
                 </li>
             </ul>

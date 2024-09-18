@@ -50,17 +50,18 @@
                     th:href="@{/admin/home}"
             >
                 <img th:src="@{/img/sb.jpg}" style="width: 30px" alt=""/>
-                <span class=""
-                ><div><p class="text-white">S.B. Jain Institute of Technology and Management Research</p></div></span
-                >
-                <span class="d-inline d-lg-none" style="color: white !important;">S.B. Jain Institute</span>
-            </a>
-            <a th:unless="${loggedInUser}" class="navbar-brand" th:href="@{/}">
-                <img th:src="@{/img/sb.jpg}" style="width: 30px" alt=""/>
-                <span class="d-none d-lg-inline"
-                >S.B. Jain Institute of Technology and Management Research</span
-                >
+                <div class="d-none d-lg-inline text-white"
+                >S.B. Jain Institute of Technology and Management Research
+                </div>
                 <span class="d-inline d-lg-none">S.B. Jain Institute</span>
+            </a>
+            <a th:unless="${loggedInUser}" class="navbar-brand" th:href="@{/}" style="text-decoration: none">
+                <img th:src="@{/img/sb.jpg}" style="width: 30px" alt=""/>
+                <div class="d-none d-lg-inline" style="color: white"
+                >S.B. Jain Institute of Technology and Management Research
+                </div
+                >
+                <div class="d-inline d-lg-none">S.B. Jain Institute</div>
             </a>
             <button
                     class="navbar-toggler"
@@ -81,27 +82,34 @@
                     <li th:unless="${loggedInUser}" class="nav-item">
                         <a
                                 th:href="@{/}"
-                                class="btn btn-success nav-link text-white"
-                        >Home</a
+                                class="nav-link text-white"
+                        >
+                            <button class="btn btn-success">
+                                HOME
+                            </button>
+                        </a
                         >
                     </li>
                     <li th:unless="${loggedInUser}" class="nav-item">
                         <a
                                 th:href="@{/admin/login}"
-                                class="btn btn-primary text-white nav-link"
-                        >Admin Login</a
+                                class="text-white nav-link"
                         >
-                    </li>
-                    <li th:unless="${loggedInUser}" class="nav-item">
-                        <a href="" class="btn btn-success text-white nav-link"
-                        >Parents Login</a
+                            <button class="btn btn-warning">
+                                ADMIN LOGIN
+                            </button>
+                        </a
                         >
                     </li>
                     <li th:unless="${loggedInUser}" class="nav-item">
                         <a
                                 th:href="@{/student/login}"
-                                class="btn btn-info text-white nav-link"
-                        >Student Login</a
+                                class="text-white nav-link"
+                        >
+                            <button class="btn btn-secondary">
+                                Student login
+                            </button>
+                        </a
                         >
                     </li>
 

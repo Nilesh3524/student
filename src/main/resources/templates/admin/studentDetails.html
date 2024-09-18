@@ -156,7 +156,11 @@
                             </div>
                             <div class="col-md-6">
                                 <h4 style="margin-bottom: 33px"></h4>
-                                <a th:href="@{'/admin/certificate/download/' + ${s.rollNo}}">Download</a>
+                                <a th:href="@{'/admin/certificate/download/' + ${s.rollNo}}">
+                                    <button class="btn btn-primary">
+                                        Download
+                                    </button>
+                                </a>
                             </div>
                         </div>
 
@@ -289,7 +293,7 @@
 
         swal({
             title: "Are you sure?",
-            text: "You want to delete this record!",
+            text: "All results will be deleted !!",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -299,7 +303,7 @@
                     // Redirect to the href of the delete button to proceed with the deletion
                     window.location.href = `/admin/student/record/delete/${rollNo}`;
                 } else {
-                    swal("Your record is safe!");
+                    swal("Your results are safe!");
                 }
             });
     }

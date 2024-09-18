@@ -35,7 +35,7 @@
             <div class="card-body" style=" background-color: #e2e2e2">
                 <form method="post" th:action="@{/admin/process-add-student}" th:object="${s}"
                       enctype="multipart/form-data"
-                      id="studentForm">
+                      id="uploadForm">
                     <div class="row my-2">
                         <div class="col-md-6">
                             <label for="year">Year</label>
@@ -219,13 +219,14 @@
                     <!-- Row 5: Certificate Text Input -->
                     <div class="row my-3">
                         <div class="col-md-6">
-                            <label for="certificate">Certificate</label>
+                            <label for="fileInput">Certificate</label>
                             <input
                                     type="file"
                                     class="form-control"
-                                    id="certificate"
+                                    id="fileInput"
                                     name="certificates"
                             />
+                            <small class="text-danger mt-2" id="fileSizeError" style="display: none;">File size exceeds 2 MB</small>
                         </div>
                         <div class="col-md-6">
                             <label for="parents">Parents Contact</label>
@@ -296,6 +297,31 @@
 </div>
 <script>
 
+    //upload size validation
+
+    document.addEventListener("DOMContentLoaded",function (){
+
+        document.getElementById('uploadForm').addEventListener('submit', function (event) {
+            const fileInput = document.getElementById('fileInput');
+            console.log(fileInput)
+            const fileSizeError = document.getElementById('fileSizeError');
+            console.log(fileSizeError)
+
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const maxFileSize = 2 * 1024 * 1024; // 2 MB in bytes
+
+                if (file.size > maxFileSize) {
+                    event.preventDefault(); // Prevent form submission
+                    fileSizeError.style.display = 'block'; // Show error message
+                } else {
+                    fileSizeError.style.display = 'none'; // Hide error message if the file size is valid
+                }
+            }
+        });
+
+    });
+
     // attendence count
     function toggleBacklogSub() {
 
@@ -325,6 +351,8 @@
         }
 
     }
+
+
 
     // Hide alert after 3 seconds
     window.onload = function () {

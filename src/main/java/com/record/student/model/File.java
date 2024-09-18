@@ -24,15 +24,18 @@ public class File {
     @Column(length = 100000)
     private byte[] data;
 
+    private String date;
+
 
     public File(String type, byte[] data) {
         this.type = type;
         this.data = data;
     }
 
-    public File(String name, String type, byte[] data) {
+    public File(String name, String type, byte[] data, String date) {
         this.name = name;
         this.type = type;
         this.data = data;
+        this.date = date;
     }
 }

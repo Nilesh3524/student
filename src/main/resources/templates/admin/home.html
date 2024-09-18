@@ -46,7 +46,6 @@
         }
 
 
-
     </style>
 
 </head>
@@ -106,15 +105,16 @@
                     <div class="card mt-3">
                         <div class="card-body">
                             <h5 class="card-title">Results & Grades</h5>
-                            <p class="card-text">View and update student results and grades upload also results for CAE, sessional exam.</p>
+                            <p class="card-text">View and update student results and grades upload also results for CAE,
+                                sessional exam.</p>
                             <a th:href="@{/admin/upload-result}" class="btn btn-primary">Upload Results</a>
                         </div>
                     </div>
                 </div>
 
-<!--                result section-->
+                <!--                result section-->
                 <div class="col-md-4 col-lg-4 mb-4">
-                    <div class="card" style="height: 370px;border-radius: 10px;">
+                    <div class="card" style="height: 378px;border-radius: 10px;width: 390px">
 
                         <div class="card-body overflow-auto">
                             <h5 class="text-center my-2">Declared Results</h5>
@@ -122,8 +122,20 @@
                                 <tbody>
                                 <tr th:each="file : ${files}">
                                     <td th:text="${file.name}"></td>
+                                    <td th:text="${file.date}"></td>
                                     <td>
-                                        <a th:href="@{'/admin/files/download/' + ${file.id}}">Download</a>
+                                        <div>
+                                            <a th:href="@{'/admin/files/download/' + ${file.id}}" style="margin-right: 3px">
+
+                                                <i class="fa-solid fa-file-arrow-down" style="font-size: 20px"></i>
+
+                                            </a>
+                                            <a th:href="@{'/admin/file/delete/' + ${file.id}}" onclick="return confirm('Are you sure want to delete this !!')">
+
+                                                <i class="fa-solid fa-trash" style="font-size: 20px"></i>
+
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                                 </tbody>

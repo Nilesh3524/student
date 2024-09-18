@@ -483,6 +483,17 @@ public class AdminController {
     }
 
 
+    //delete result
+    @GetMapping("/file/delete/{fileId}")
+    public String deleteFile(@PathVariable int fileId,HttpSession session) throws IOException {
+
+        this.fileService.deleteFile(fileId);
+
+        session.setAttribute("message", new Message("alert-success", "File deleted successfully"));
+
+        return "redirect:/admin/dashboard";
+    }
+
     //download result
     @GetMapping("/files/download/{fileId}")
     public ResponseEntity<byte[]> downloadFile(@PathVariable int fileId) throws IOException {
